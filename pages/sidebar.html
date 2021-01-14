@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3"
+    />
+    <title>SI MULTI RONA</title>
+
+    <!-- using online links -->
+    <link rel="stylesheet" href="../bootstrap-4.1.3-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/dashboard2.css">
+
+    <link rel="stylesheet" href="../fonts/fontawesome/css/all.css" />
+    <!-- <link rel="stylesheet" href="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css"/> -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
+    <link rel="stylesheet" href="w3.css" />
+    <link rel="stylesheet" href="css/main_page.css" />
+    <link rel="stylesheet" href="css/sidebar-themes.css" />
+    <!-- <script src="pages/js/data_produk_list.js"></script> -->
+  </head>
+  <script>
+    function includeHTML() {
+      var z, i, elmnt, file, xhttp;
+      /*loop through a collection of all HTML elements:*/
+      z = document.getElementsByTagName("div");
+      for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        /*search for elements with a certain atrribute:*/
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+          /*make an HTTP request using the attribute value as the file name:*/
+          xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+              if (this.status == 200) {
+                elmnt.innerHTML = this.responseText;
+              }
+              if (this.status == 404) {
+                elmnt.innerHTML = "Page not found.";
+              }
+              /*remove the attribute, and call this function once more:*/
+              elmnt.removeAttribute("w3-include-html");
+              includeHTML();
+            }
+          };
+          xhttp.open("GET", file, true);
+          xhttp.send();
+          /*exit the function:*/
+          return;
+        }
+      }
+    }
+  </script>
+  <body id="body">
+    <div class="page-wrapper default-theme sidebar-bg bg1 toggled border-radius-on">
+      <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+          <!-- sidebar-brand  -->
+          <div class="sidebar-item sidebar-brand">
+            <h1 style="color: white;">Menu</h1>
+          </div>
+          <!-- sidebar-header  -->
+          <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+            <div class="user-pic">
+              <!-- <img
+                class="img-responsive img-rounded"
+                src="img/avatar1.jpg"
+                alt="User picture"
+              /> -->
+              <i class="fa fa-user w3-xxlarge"></i>
+            </div>
+            <div class="user-info">
+              <span class="user-name"><strong>Setiadi</strong></span>
+              <span class="user-role">Owner</span>
+              <span class="user-status">
+                <i class="fa fa-circle"></i>
+                <span>Online</span>
+              </span>
+            </div>
+          </div>
+          <!-- sidebar-search  -->
+          <!-- <div class="sidebar-item sidebar-search">
+            <div>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control search-menu"
+                  placeholder="Search..."
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- sidebar-menu  -->
+          <div class=" sidebar-item sidebar-menu">
+            <ul>
+              <li class="header-menu">
+                <!-- <span>General</span> -->
+              </li>
+              <li class="sidebar-menu active">
+                <a href="dashboard.html">
+                  <i class="fa fa-home w3-xlarge"></i>
+                  <span class="menu-text">Dashboard</span>
+                  <span class="badge badge-pill badge-warning">New</span>
+                </a>
+              </li>
+              <li class="sidebar-menu">
+                <a href="data_produk_list.html">
+                  <i class="fa fa-shopping-bag w3-xlarge"></i>
+                  <span class="menu-text">Penjualan</span>
+                  <span class="badge badge-pill badge-danger">3</span>
+                </a>
+              </li>
+              <li class="sidebar-dropdown">
+                <a>
+                  <i class="fas fa-list-ul w3-xlarge"></i>
+                  <span class="menu-text">Inventaris</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="data_produk_list.html">Stok Produk</a>
+                      </button>
+                    </li>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="data_produk_list.html">Produk Masuk</a>
+                      </button>
+                    </li>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="data_produk_list.html">Peralatan</a>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a>
+                  <i class="fa fa-folder-open w3-xlarge"></i>
+                  <span class="menu-text">Data Produk</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="data_produk_list.html">List Produk</a>
+                      </button>
+                    </li>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="#(5)">Jenis Produk</a>
+                      </button>
+                    </li>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="#(6)">Satuan</a>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a>
+                  <i class="fa fa-file w3-xlarge"></i>
+                  <span class="menu-text">Laporan</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="#(7)">Laporan Penjualan</a>
+                      </button>
+                    </li>
+                    <li>
+                      <button class="menuBtn">
+                        <a href="#(8)">Laporan Stok Produk</a>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-menu">
+                <a href="#(9)">
+                  <i class="fab fa-dropbox w3-xlarge"></i>
+                  <span class="menu-text">Supplier</span>
+                  <span class="badge badge-pill badge-success">3</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-footer  -->
+        <div class="sidebar-footer">
+          <div class="dropdown">
+            <a
+              href="#"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fa fa-bell w3-xlarge"></i>
+              <span class="badge badge-pill badge-warning notification">3</span>
+            </a>
+            <div
+              class="dropdown-menu notifications"
+              aria-labelledby="dropdownMenuMessage"
+            >
+              <div class="notifications-header">
+                <i class="fa fa-bell"></i>
+                Notifications
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">
+                <div class="notification-content">
+                  <div class="icon">
+                    <i
+                      class="fas fa-check text-success border border-success"
+                    ></i>
+                  </div>
+                  <div class="content">
+                    <div class="notification-detail">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      In totam explicabo
+                    </div>
+                    <div class="notification-time">
+                      6 minutes ago
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a class="dropdown-item" href="#">
+                <div class="notification-content">
+                  <div class="icon">
+                    <i
+                      class="fas fa-exclamation text-info border border-info"
+                    ></i>
+                  </div>
+                  <div class="content">
+                    <div class="notification-detail">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      In totam explicabo
+                    </div>
+                    <div class="notification-time">
+                      Today
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a class="dropdown-item" href="#">
+                <div class="notification-content">
+                  <div class="icon">
+                    <i
+                      class="fas fa-exclamation-triangle text-warning border border-warning"
+                    ></i>
+                  </div>
+                  <div class="content">
+                    <div class="notification-detail">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      In totam explicabo
+                    </div>
+                    <div class="notification-time">
+                      Yesterday
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-center" href="#"
+                >View all notifications</a
+              >
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              href="#"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fa fa-sticky-note w3-xlarge"></i>
+              <span class="badge badge-pill badge-success notification">7</span>
+            </a>
+            <div
+              class="dropdown-menu messages"
+              aria-labelledby="dropdownMenuMessage"
+            >
+              <div class="messages-header">
+                <i class="fa fa-envelope  w3-xlarge"></i>
+                Reminder
+              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">
+                <div class="message-content">
+                  <div class="pic">
+                    <img src="img/avatar1.jpg" alt="" />
+                  </div>
+                  <div class="content">
+                    <div class="message-title">
+                      <strong> Jhon doe</strong>
+                    </div>
+                    <div class="message-detail">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      In totam explicabo
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a class="dropdown-item" href="#">
+                <div class="message-content">
+                  <div class="pic">
+                    <img src="img/avatar1.jpg" alt="" />
+                  </div>
+                  <div class="content">
+                    <div class="message-title">
+                      <strong> Jhon doe</strong>
+                    </div>
+                    <div class="message-detail">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      In totam explicabo
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a class="dropdown-item" href="#">
+                <div class="message-content">
+                  <div class="pic">
+                    <img src="img/avatar1.jpg" alt="" />
+                  </div>
+                  <div class="content">
+                    <div class="message-title">
+                      <strong> Jhon doe</strong>
+                    </div>
+                    <div class="message-detail">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      In totam explicabo
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-center" href="#"
+                >View all messages</a
+              >
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              href="#"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fa fa-cog  w3-xlarge"></i>
+              <span class="badge-sonar"></span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
+              <a class="dropdown-item" href="#(11)">Data Pengguna</a>
+            </div>
+          </div>
+          <div>
+            <a href="pages/login.html">
+              <i class="fa fa-power-off  w3-xlarge" ></i>
+            </a>
+          </div>
+          <!-- <div class="pinned-footer">
+            <a href="#">
+              <i class="fas fa-ellipsis-h  w3-xlarge"></i>
+            </a>
+          </div> -->
+        </div>
+      </nav>
+      <!-- page-content  -->
+      <!-- <main class="page-content pt-2">
+      </main> -->
+      <!-- page-content" -->
+    </div>
+    <!-- page-wrapper -->
+    <!-- <script>
+      includeHTML();
+
+      function changeMain(param){
+        let arr = document.getElementsByClassName("main-page");
+        console.log(arr);
+        for (let i = 0; i < arr.length; i++) {
+          if(param === i){
+            arr[i].style.display = "block";
+          } else{
+            arr[i].style.display = "none";
+          }
+        }
+      }
+
+      function logout(){
+        window.location.href = "./pages/login.html";
+      }
+    </script> -->
+    <!-- using online scripts -->
+    <!-- <script src="js/jquery.min.js"></script> -->
+    <!-- <script src="bootstrap-4.1.3-dist/js/bootstrap.min.js"></script> -->
+    <!-- <script src="js/jquery.mCustomScrollbar.concat.min.js"></script> -->
+
+    <!-- using local scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <!-- <script src="./node_modules/popper.js/dist/umd/popper.min.js"></script> -->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

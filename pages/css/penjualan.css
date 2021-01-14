@@ -1,0 +1,20 @@
+.fieldset {
+  border: groove;
+  width: 60%;
+}
+.penjualan legend {
+  background-color: lightgray;
+  font-size: medium;
+}
+#total {
+  /* border: none; */
+  /* background-color: white; */
+  color: black;
+}
+.penjualan label {
+  padding-left: 5px;
+}
+.penjualan select {
+  width: 250px;
+  padding: 3px;
+}

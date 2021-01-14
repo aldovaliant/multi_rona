@@ -1,0 +1,145 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/w3.css" />
+    <link
+      rel="stylesheet"
+      href="../bootstrap-4.1.3-dist/css/bootstrap.min.css"
+    />
+    <title>Sistem Informasi Penjualan dan Inventaris Multirona</title>
+  </head>
+  <body>
+    <!-- <img src="img/multirona.PNG" alt="multirona" /> -->
+    <div class="background">
+      <img src="img/multirona.PNG" alt="multirona" />
+      <div class="login w3-display-middle w3-center">
+        <h1>Multi Rona</h1>
+        <h4>Login</h4>
+        <br />
+        <label for="username">Username :</label>
+        <input id="username" type="text" name="username" placeholder="" />
+        <br /><br />
+        <label for="password">Password :</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder=""
+        /><br />
+        <input type="checkbox" onclick="myFunction()" /> Show Password
+        <!-- <br /><br /> -->
+        <strong><p id="message" style="color: red"></p></strong>
+        <!-- <br /> -->
+        <a onclick="checkInput()">
+          <!-- <input type="submit" value="LOGIN" class="w3-button w3-gray" /> -->
+          <button class="btn btn-primary">LOGIN</button> </a
+        ><br />
+        <!-- <button id="btnSetDB" onclick="setLocal(this)">Set Local DB</button> -->
+      </div>
+    </div>
+
+    <script>
+      const Dialogs = require("dialogs");
+      const dialogs = Dialogs();
+
+      var input1 = document.getElementById("username");
+      var input2 = document.getElementById("password");
+      sessionStorage.setItem("online_db", true);
+      // input1.addEventListener("keyup", function (event) {
+      //   if (event.keyCode === 13) {
+      //     event.preventDefault();
+      //     checkInput();
+      //   }
+      // });
+      // input2.addEventListener("keyup", function (event) {
+      //   if (event.keyCode === 13) {
+      //     event.preventDefault();
+      //     checkInput();
+      //   }
+      // });
+
+      function checkInput() {
+        if (input1.value != "" && input2.value != "") {
+          loginAPI();
+        } else if (input1.value == "" && input2.value != "") {
+          dialogs.alert("Username tidak boleh kosong");
+        } else if (input1.value != "" && input2.value == "") {
+          dialogs.alert("Password tidak boleh kosong");
+        } else {
+          dialogs.alert("Username dan Password harus diisi !");
+        }
+      }
+
+      function loginAPI() {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        let param = {
+          username: username,
+          password: password,
+        };
+        // const url =
+        //   "http://multirona.000webhostapp.com/index.php/login?username=" +
+        //   username +
+        //   "&password=" +
+        //   password;
+        let url = "http://multirona.000webhostapp.com/index.php/login";
+        // let url = "http://localhost/multi_rona/login";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(param),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            // console.log(data);
+            if (data.status == 200) {
+              // alert(data.message);
+              console.log(data);
+              sessionStorage.setItem("id_user", data.id);
+              sessionStorage.setItem("nama_user", data.nama);
+              sessionStorage.setItem("jenis_user", data.jenis);
+              // dialogs.alert(data.message, (ok) => {
+              window.location.href = "dashboard.html";
+              // });
+            } else {
+              dialogs.alert(data.message);
+              // let msg = data.message;
+              // document.getElementById("message").innerHTML = msg.toUpperCase();
+              // document.getElementById("username").value = "";
+              // document.getElementById("password").value = "";
+              // window.location = window.location;
+            }
+          })
+          .catch(function (error) {
+            let msg = data.message;
+            document.getElementById("message").innerHTML = msg.toUpperCase();
+            // alert("Login Gagal");
+          });
+      }
+
+      function myFunction() {
+        let x = document.getElementById("password");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+
+      function setLocal(param) {
+        // if (param.innerHTML == "Set Local DB") {
+          sessionStorage.setItem("online_db", false);
+          param.innerHTML = "Set Local DB Ok";
+        // } else {
+        //   sessionStorage.setItem("online_db", true);
+        //   param.innerHTML = "Set Local DB";
+        // }
+        console.log(sessionStorage.getItem("online_db"));
+      }
+    </script>
+  </body>
+</html>

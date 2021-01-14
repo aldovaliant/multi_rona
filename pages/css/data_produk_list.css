@@ -1,0 +1,95 @@
+.list-barang .search {
+  margin-left: -3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.col label {
+  margin-top: 5.5px;
+  margin-bottom: 5px;
+}
+.col-8 input,
+select {
+  margin-bottom: 5px;
+  float: left;
+}
+.col-8 select {
+  width: 61%;
+  height: 85%;
+}
+#isEceran {
+  size: 20px;
+}
+.row-ecer select {
+  width: 30%;
+}
+.row-ecer input {
+  width: 30%;
+}
+/* .row-ecerEdit select{
+  width: 30%;
+}
+.row-ecerEdit input{
+  width: 20%;
+} */
+#div-ecer {
+  text-align: center;
+}
+#div-edit .col-4 select {
+  width: 135%;
+}
+.row-ecerEdit {
+  margin-bottom: 5px;
+}
+.row-ecerEdit .col {
+  text-align: center;
+}
+.row-ecerEdit .col select {
+  height: 95%;
+  width: 90%;
+}
+.row-ecerEdit .col .checklist-ecer {
+  width: 30px;
+}
+.row-ecerEdit .col input {
+  width: 90%;
+}
+.row-ecerTambah .col input {
+  width: 90%;
+}
+.row-ecerTambah .col select {
+  height: 95%;
+  width: 90%;
+}
+.div-ecer {
+  display: none;
+}
+.main {
+  margin-bottom: 5%;
+}
+.modal-detail .row .col-8 input {
+  border: none;
+  color: black;
+}
+.col .checklist-edit {
+  float: left;
+  margin-left: 30%;
+  margin-top: 5%;
+}
+.col-8 .checklist-edit {
+  margin-left: 5%;
+  margin-top: 6px;
+}
+/* .btn-edit-hapus {
+  width: 70%;
+  height: 70%;
+  font-size: small;
+} */
+
+#modalHapusProduk .modal-body {
+  text-align: center;
+}
+hr {
+  border: 2px solid;
+}

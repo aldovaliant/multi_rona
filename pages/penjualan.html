@@ -1,0 +1,921 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Informasi Penjualan dan Inventaris Multirona</title>
+    <link rel="stylesheet" href="css/w3.css" />
+    <link rel="stylesheet" href="css/penjualan.css" />
+    <link rel="stylesheet" href="css/sidenav.css" />
+    <link rel="stylesheet" href="css/reminder.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="../fonts/fontawesome/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="../bootstrap-4.1.3-dist/css/bootstrap.min.css"
+    />
+    <script>
+      window.jQuery = window.$ = require("jquery");
+    </script>
+    <script src="js/popper.min.js"></script>
+    <script src="../bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+  </head>
+  <style>
+    hr {
+      border: 2px solid;
+    }
+    table {
+      text-align: center;
+    }
+    .penjualan {
+      font-size: 16px;
+    }
+    .fieldset input {
+      margin-left: 5px;
+    }
+    #diskon {
+      margin-left: 22%;
+    }
+  </style>
+  <body>
+    <div class="sidenav">
+      <div class="sidebar-content">
+        <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+          <div class="user-pic">
+            <i class="fa fa-user w3-xxlarge"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name"><strong>Setiadi</strong></span
+            ><br />
+            <span class="user-role">Owner</span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <h1>Menu</h1>
+      <a href="dashboard.html"
+        ><i class="fa fa-home w3-xlarge"></i> Dashboard</a
+      >
+      <a class="active" href="penjualan.html"
+        ><i class="fa fa-shopping-bag w3-xlarge"></i> Penjualan</a
+      >
+      <button class="dropdown-btn">
+        <i class="fas fa-list-ul w3-xlarge"></i>
+        Inventaris
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="inventaris_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Stok Produk</a
+        >
+        <a href="inventaris_masuk.html"
+          ><i class="fas fa-circle w3-small"></i> Tambah Stok</a
+        >
+        <a href="inventaris_edit.html"
+          ><i class="fas fa-circle w3-small"></i> Edit Stok</a
+        >
+        <a href="peralatan.html"
+          ><i class="fas fa-circle w3-small"></i> Peralatan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Data Produk
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="data_produk_list.html"
+          ><i class="fas fa-circle w3-small"></i> List Produk</a
+        >
+        <a href="data_produk_jenis.html"
+          ><i class="fas fa-circle w3-small"></i> Jenis Produk</a
+        >
+        <a href="data_produk_satuan.html"
+          ><i class="fas fa-circle w3-small"></i> Satuan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Laporan
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="laporan_penjualan.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Penjualan</a
+        >
+        <a href="laporan_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Stok Produk</a
+        >
+      </div>
+      <a href="supplier.html"
+        ><i class="fab fa-dropbox w3-xlarge"></i> Supplier</a
+      >
+      <a href="pelanggan.html"
+        ><i class="fas fa-user w3-xlarge"></i> Pelanggan</a
+      >
+      <a href="pengguna.html" style="bottom: 6%; position: absolute"
+        ><i class="fa fa-user-circle w3-xlarge"></i> Pengguna</a
+      >
+      <a href="login.html" style="bottom: 0; position: absolute"
+        ><i class="fa fa-sign-out-alt w3-xlarge"></i> Keluar</a
+      >
+    </div>
+
+    <div class="main">
+      <div class="container" id="judul">
+        <h2>Penjualan</h2>
+        <hr />
+      </div>
+
+      <div class="container penjualan">
+        <h3>Form Transaksi</h3>
+        <!-- <h6 id="no-transaksi">No. Transaksi :</h6> -->
+        <label for="no-transaksi"><h6>No. Transaksi :</h6></label>
+        <input type="number" name="no-transaksi" id="no-transaksi" disabled />
+        <h6>Tanggal : 20/04/2020</h6>
+        <label for="pelanggan"><h6>Nama Pelanggan :</h6></label>
+        <select name="pelanggan" id="pelanggan"></select>
+        <!-- <form> -->
+        <div class="fieldset pb-2">
+          <legend>Input Produk</legend>
+          <label for="produk">Nama Produk &emsp; :&nbsp;</label>
+          <select name="produk" id="produk"></select
+          ><br />
+
+          <!-- <label for="id-produk">Id Produk &emsp;&emsp;&ensp;&ensp; : </label>
+          <input type="text" name="id-produk" id="id-produk" value="" disabled /><br /> -->
+
+          <label for="satuan">Pilih Satuan &emsp;&ensp;&nbsp; :&nbsp; </label>
+          <select name="satuan" id="satuan"></select
+          ><br />
+
+          <label for="stok">Stok Produk &emsp;&emsp;:</label>
+          <input type="text" name="stok" id="stok" value="" disabled /><br />
+
+          <label for="harga">Harga Satuan &ensp;&nbsp; : </label>
+          <input type="text" name="harga" id="harga" value="" disabled /><br />
+
+          <label for="jumlah">Jumlah Beli &nbsp;&emsp;&ensp; : </label>
+          <input
+            type="number"
+            name="jumlah"
+            id="jumlah"
+            min="1"
+            oninput="total()"
+          /><br />
+
+          <input type="checkbox" id="diskon-checkbox" />
+          <label for="diskon">Diskon &emsp;&emsp;&emsp; :</label>
+          <input
+            type="radio"
+            id="rupiah"
+            name="radio"
+            value="rupiah"
+            checked
+            disabled
+          />
+          <label for="">Rp</label>&emsp;
+          <input
+            type="radio"
+            id="persen"
+            name="radio"
+            value="persen"
+            disabled
+          />
+          <label for="">%</label><br />
+          <input type="number" name="diskon" id="diskon" disabled />
+          <br />
+          <label for="total">Total&emsp;&emsp;&emsp;&emsp;&emsp;&ensp; :</label>
+          <input type="text" name="" id="total" value="" disabled /><br />
+          <!-- <button
+            id="diskon"
+            class="btn btn-secondary"
+            style="margin-left: 5px; margin-bottom: 5px"
+          >
+            Ubah Harga</button
+          ><br /> -->
+
+          <button
+            class="btn btn-primary"
+            style="margin-left: 5px"
+            id="clear-all"
+          >
+            Reset Input
+          </button>
+          <button
+            class="btn btn-primary"
+            style="float: right; margin-right: 5px"
+            id="tambah"
+          >
+            Tambah
+          </button>
+        </div>
+        <!-- </form> -->
+
+        <div class="list-transaksi">
+          <br />
+          <h5>List Transaksi Produk</h5>
+          <table id="list-table">
+            <colgroup>
+              <col span="1" style="width: 5%" />
+              <!-- <col span="1" style="width: 10%" /> -->
+              <col span="1" style="width: 20%" />
+              <col span="1" style="width: 15%" />
+              <col span="1" style="width: 15%" />
+              <col span="1" style="width: 10%" />
+              <col span="1" style="width: 10%" />
+              <col span="1" style="width: 15%" />
+              <col span="1" style="width: 10%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>No</th>
+                <!-- <th>Id Produk</th> -->
+                <th>Nama Produk</th>
+                <th>Satuan</th>
+                <th>Harga Satuan</th>
+                <th>Jumlah</th>
+                <th>Diskon</th>
+                <th>Total</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="" style="float: right; margin-top: 20px; font-size: large">
+          <label for="grand-total">GRAND TOTAL :</label>
+          <input
+            type="text"
+            name="grand-total"
+            id="grand-total"
+            value=""
+            style="
+              background-color: white;
+              border: none;
+              color: black;
+              text-align: right;
+            "
+            disabled
+          /><br />
+          <label for="bayar">UANG BAYAR &nbsp; :</label>
+          <input
+            type="text"
+            name="bayar"
+            id="bayar"
+            value=""
+            style="text-align: right"
+          /><br />
+          <!-- <p id="terbilang-output" style="font-size: medium;text-align: right;"></p> -->
+          <!-- <button class="btn btn-primary">PRINT</button> -->
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="float: right; margin-bottom: 10px"
+            id="selesai"
+          >
+            SIMPAN
+          </button>
+        </div>
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">TRANSAKSI SELESAI</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                  &times;
+                </button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body" style="text-align: center">
+                Transaksi berhasil ditambahkan!<br />
+                Kembalian dari transaksi ini : <br />
+                <h3></h3>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/side_nav.js"></script>
+    <!-- <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/jquery.mask.min.js"></script>
+    <script src="js/terbilang.js"></script> -->
+    <script>
+      const Dialogs = require("dialogs");
+      const dialogs = Dialogs();
+      // var baseUrl = "http://localhost/multi_rona/";
+      // if (sessionStorage.getItem("online_db") == true)
+      //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      // else baseUrl = "http://localhost/multi_rona/";
+      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var arrPelanggan = [];
+      var arrProduk = [];
+      var arrSatuan = [];
+      var arrHarga = [];
+      var arrStok = [];
+      var arrDetail = [];
+      var idxProduk = 0,
+        totalAsal = 0,
+        idxPenjualan = 1;
+      var fkPelanggan;
+      var arrToken = [];
+      window.onload = getAllData();
+      window.onload = getAndroidToken();
+
+      // FUNGSI YANG DIJALANKAN KETIKA HALAMAN DIBUKA
+      function getAllData() {
+        getNoTransaksi();
+        getPelanggan();
+        getProduk();
+      }
+
+      // FUNGSI MENDAPATKAN NO TRANSAKSI TERBARU
+      function getNoTransaksi() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/penjualan/no_transaksi";
+        let url = baseUrl + "penjualan/no_transaksi";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            if (data.length == 0) {
+              document.getElementById("no-transaksi").value = 1;
+            } else {
+              let no = parseInt(data[0].no_transaksi) + 1;
+              document.getElementById("no-transaksi").value = no;
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      // FUNGSI MENDAPATKAN DATA PELANGGAN
+      function getPelanggan() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/penjualan/pelanggan";
+        let url = baseUrl + "penjualan/pelanggan";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrPelanggan = data;
+            let select = document.getElementById("pelanggan");
+            for (let i = 0; i < data.length; i++) {
+              let opt = document.createElement("option");
+              opt.innerHTML = data[i].nama;
+              opt.value = data[i].id;
+              select.appendChild(opt);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      // FUNGSI MENDAPATKAN DATA PRODUK
+      function getProduk() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/penjualan/produk";
+        let url = baseUrl + "penjualan/produk";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrProduk = data;
+            let select = document.getElementById("produk");
+            for (let i = 0; i < data.length; i++) {
+              let opt = document.createElement("option");
+              opt.innerHTML = data[i].nama;
+              opt.value = data[i].nama;
+              select.appendChild(opt);
+            }
+            getSatuan(arrProduk[idxProduk].id);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      // FUNGSI KETIKA INPUT PRODUK BERUBAH
+      document.getElementById("produk").oninput = function () {
+        document.getElementById("jumlah").value = "";
+        document.getElementById("total").value = "";
+        idxProduk = document.getElementById("produk").selectedIndex;
+        // document.getElementById("id-produk").value = arrProduk[idxProduk].id;
+        getSatuan(arrProduk[idxProduk].id);
+      };
+
+      // FUNGSI MENDAPATKAN DATA SATUAN PRODUK
+      function getSatuan(idx) {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/penjualan/satuan?id=" +
+        //   idx;
+        let url = baseUrl + "penjualan/satuan?id=" + idx;
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            let select = document.getElementById("satuan");
+            while (select.length > 0) {
+              select.remove(select.length - 1);
+            }
+            for (let i = 0; i < data.length; i++) {
+              arrHarga[i] = data[i].harga;
+              arrStok[i] = data[i].jumlah;
+              arrSatuan[i] = data[i].id_satuan;
+              let opt = document.createElement("option");
+              opt.innerHTML = data[i].nama_satuan;
+              opt.value = data[i].nama_satuan;
+              select.appendChild(opt);
+            }
+            document.getElementById("stok").value = arrStok[0];
+            document.getElementById("harga").value = rupiahFormat(arrHarga[0]);
+            if (arrStok[0] < 1) {
+              dialogs.alert("Stok produk habis!");
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      // FUNGSI KETIKA HARGA BERUBAH
+      document.getElementById("harga").onchange = function () {
+        total();
+      };
+      function total() {
+        let jml = document.getElementById("jumlah").value;
+        let harga = document.getElementById("harga").value;
+        let total = jml * harga;
+        document.getElementById("total").value = total;
+        totalAsal = total;
+      }
+
+      // FUNGSI KETIKA INPUT SATUAN BERUBAH
+      document.getElementById("satuan").oninput = function () {
+        let idx = document.getElementById("satuan").selectedIndex;
+        let harga = rupiahFormat(arrHarga[idx]);
+        document.getElementById("harga").value = rupiahFormat(arrHarga[idx]);
+        document.getElementById("stok").value = arrStok[idx];
+        if (arrStok[idx] < 1) {
+          dialogs.alert("Stok produk habis!");
+        }
+        document.getElementById("jumlah").value = "";
+        document.getElementById("total").value = "";
+        document.getElementById("diskon").value = "";
+        document.getElementById("diskon-checkbox").checked = false;
+      };
+
+      // FUNGSI KETIKA INPUT JUMLAH BERUBAH
+      document.getElementById("jumlah").oninput = function () {
+        // total();
+        let jml = document.getElementById("jumlah").value;
+        let harga = setTotal(jml);
+        document.getElementById("total").value = harga;
+        totalAsal = harga;
+        document.getElementById("diskon-checkbox").checked = false;
+      };
+
+      // FUNGSI KETIKA CHECKLIST DISKON
+      document.getElementById("diskon-checkbox").onchange = function () {
+        let total = document.getElementById("total");
+        if (total.value == "" || total.value == 0) {
+          dialogs.alert("Isi jumlah produk terlebih dahulu.");
+          document.getElementById("diskon-checkbox").checked = false;
+        } else if (document.getElementById("diskon-checkbox").checked) {
+          let inputs = document.getElementsByName("radio");
+          inputs[0].disabled = false;
+          inputs[1].disabled = false;
+          document.getElementById("diskon").disabled = false;
+        } else {
+          let inputs = document.getElementsByName("radio");
+          inputs[0].disabled = true;
+          inputs[1].disabled = true;
+          document.getElementById("diskon").disabled = true;
+        }
+      };
+
+      // FUNGSI HITUNG TOTAL KETIKA JUMLAH BERUBAH
+      function setTotal(jumlah) {
+        let harga = document.getElementById("harga").value;
+        let hargaInt = parseInt(harga.replace(/[.]/g, ""));
+        let total = hargaInt * jumlah;
+        return rupiahFormat(total);
+      }
+
+      // FUNGSI UNTUK DISKON
+      var diskon = document.getElementById("diskon");
+      diskon.addEventListener("keyup", function (e) {
+        let isPersen = false;
+        if (document.getElementById("persen").checked) isPersen = true;
+        else isPersen = false;
+        setDiskon(diskon.value, isPersen);
+        diskon.value = formatRupiah(this.value);
+        if (diskon.value == "") {
+          document.getElementById("total").value = totalAsal;
+        }
+      });
+      function setDiskon(diskon, isPersen) {
+        let totalInt = parseInt(totalAsal.replace(/[.]/g, ""));
+        let diskonInt = parseInt(diskon.replace(/[.]/g, ""));
+        if (isPersen) {
+          if (diskonInt > 100) {
+            dialogs.alert("Diskon tidak boleh lebih dari 100%.");
+            document.getElementById("diskon").value = "";
+          } else {
+            let total = totalInt - totalInt * (diskonInt / 100);
+            document.getElementById("total").value = rupiahFormat(total);
+          }
+        } else {
+          if (diskonInt > totalInt) {
+            dialogs.alert("Diskon tidak boleh melebihi total harga");
+            document.getElementById("diskon").value = "";
+          } else {
+            let total = totalInt - diskonInt;
+            document.getElementById("total").value = rupiahFormat(total);
+          }
+        }
+      }
+
+      // FUNGSI BUTTON TAMBAH
+      document.getElementById("tambah").addEventListener("click", createTable);
+      function createTable() {
+        if (
+          document.getElementById("produk").value != "" &&
+          document.getElementById("satuan").value != "" &&
+          document.getElementById("harga").value != "" &&
+          document.getElementById("jumlah").value != "" &&
+          document.getElementById("total").value != ""
+        ) {
+          if (document.getElementById("jumlah").value < 1) {
+            dialogs.alert("Jumlah harus lebih dari 1 !");
+          } else if (document.getElementById("stok").value == 0) {
+            dialogs.alert("Stok produk habis!");
+          } else if (
+            document.getElementById("diskon-checkbox").checked &&
+            document.getElementById("diskon").value == 0
+          ) {
+            dialogs.alert("Input diskon tidak boleh kosong atau 0.");
+          } else {
+            let tbody = document.getElementsByTagName("tbody");
+            let tr = document.createElement("tr");
+            tr.className = "detail-row";
+
+            let td = document.createElement("td");
+            td.appendChild(document.createTextNode(idxPenjualan));
+            idxPenjualan++;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = document.getElementById("produk").value;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = document.getElementById("satuan").value;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = document.getElementById("harga").value;
+            td.style.textAlign = "right";
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = document.getElementById("jumlah").value;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            let disc = document.getElementById("diskon").value;
+            if (document.getElementById("diskon-checkbox").checked) {
+              if (document.getElementById("persen").checked) {
+                disc += "(%)";
+                td.textContent = disc;
+              } else {
+                disc += "(Rp)";
+                td.textContent = disc;
+              }
+            } else {
+              td.textContent = 0;
+            }
+            td.id = "td-diskon";
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = document.getElementById("total").value;
+            td.style.textAlign = "right";
+            td.className = "list-total";
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            let btnHapus = document.createElement("button");
+            btnHapus.appendChild(document.createTextNode("hapus"));
+            btnHapus.className = "btn btn-danger btn-aksi";
+            btnHapus.onclick = function () {
+              myDeleteRow(this);
+            };
+            td.appendChild(btnHapus);
+            tr.appendChild(td);
+
+            tbody[0].appendChild(tr);
+            let detail = {
+              jumlah: document.getElementById("jumlah").value,
+              produk:
+                arrProduk[document.getElementById("produk").selectedIndex].id,
+              satuan:
+                arrSatuan[document.getElementById("satuan").selectedIndex],
+              harga_satuan: $("#harga").val().replace(/[.]/g, ""),
+              diskon: disc,
+              total_harga: document
+                .getElementById("total")
+                .value.replace(/[.]/g, ""),
+            };
+            arrDetail.push(detail);
+            console.log(arrDetail.length);
+            setGrandTotal();
+            clearInput();
+            let row = document.getElementsByClassName("detail-row");
+            console.log("tr:" + row.length);
+          }
+        } else {
+          dialogs.alert("Semua input harus diisi !");
+        }
+      }
+
+      // FUNGSI HITUNG GRAND TOTAL
+      function setGrandTotal() {
+        let list = document.getElementsByClassName("list-total");
+        let grandTotal = 0;
+        for (let i = 0; i < list.length; i++) {
+          let temp = list[i].innerHTML;
+          let total = temp.replace(/[.]/g, "");
+          grandTotal += parseInt(total);
+        }
+        document.getElementById("grand-total").value = rupiahFormat(grandTotal);
+      }
+
+      // FUNGSI UNTUK INPUT BAYAR
+      var bayar = document.getElementById("bayar");
+      bayar.addEventListener("keyup", function (e) {
+        // tambahkan 'Rp.' pada saat form di ketik
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        bayar.value = formatRupiah(this.value);
+      });
+
+      // FUNGSI BUTTON SELESAI
+      document
+        .getElementById("selesai")
+        .addEventListener("click", insertPenjualan);
+      function insertPenjualan() {
+        let grandTotal = document
+          .getElementById("grand-total")
+          .value.replace(/[.]/g, "");
+        let bayar = document.getElementById("bayar").value.replace(/[.]/g, "");
+        console.log(grandTotal);
+        console.log(bayar);
+        if (document.getElementById("list-table").rows.length <= 1) {
+          dialogs.alert("List Transaksi harus diisi");
+        } else if (bayar < grandTotal) {
+          dialogs.alert(
+            "Input UANG BAYAR tidak boleh lebih sedikit dari GRAND TOTAL"
+          );
+        } else {
+          let param = {
+            // no_transaksi: document.getElementById("no-transaksi").value,
+            fk_pelanggan: document.getElementById("pelanggan").value,
+            total_penjualan: grandTotal,
+            total_pembayaran: bayar,
+          };
+          // console.log(param);
+          // let url = "http://multirona.000webhostapp.com/index.php/penjualan";
+          let url = baseUrl + "penjualan";
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(param),
+          })
+            .then((resp) => resp.json())
+            .then(function (data) {
+              console.log(data);
+              let kembalian = bayar - grandTotal;
+              kembalian = rupiahFormat(kembalian);
+              if (data.status == 200) {
+                insertDetail(data.id_header, kembalian);
+                clearInput();
+                clearDetail();
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+              dialogs.alert("Gagal menambahkan transaksi!");
+            });
+        }
+      }
+      function insertDetail(id_header, kembalian) {
+        // let tr = document.getElementsByClassName("detail-row");
+        // console.log(tr);
+        if (arrDetail.length > 0) {
+          for (let i = 0; i < arrDetail.length; i++) {
+            // let url =
+            //   "http://multirona.000webhostapp.com/index.php/penjualan/detail";
+            let url = baseUrl + "penjualan/detail";
+            let param = {
+              id_header: id_header,
+              id_produk: arrDetail[i].produk,
+              jumlah: arrDetail[i].jumlah,
+              satuan: arrDetail[i].satuan,
+              harga_satuan: arrDetail[i].harga_satuan,
+              diskon: arrDetail[i].diskon,
+              total_harga: arrDetail[i].total_harga,
+              fk_user: sessionStorage.getItem("id_user"),
+            };
+            fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify(param),
+            })
+              .then((resp) => resp.json())
+              .then(function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                  let msg =
+                    "Transaksi berhasil ditambahkan! \n Kembalian dari transaksi ini : " +
+                    kembalian;
+                  sendAndroidNotif(msg);
+                  insertNotif("Transaksi berhasil ditambahkan!");
+                  dialogs.alert(msg, (ok) => {
+                    window.location = window.location;
+                  });
+                } else {
+                  dialogs.alert("Gagal mencatat transaksi!");
+                }
+              })
+              .catch(function (error) {
+                console.log(error);
+                dialogs.alert("Gagal menambahkan transaksi!");
+              });
+          }
+        }
+      }
+
+      function getAndroidToken() {
+        // let url = "http://multirona.000webhostapp.com/index.php/android/token";
+        let url = baseUrl + "android/token";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+              arrToken.push(data[i].token);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function sendAndroidNotif(msg) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-type", "application/json");
+        myHeaders.append(
+          "Authorization",
+          "key=AAAA50qCXc8:APA91bHjNNL3LH6gCsEVUy4qhO_2wU08w-MQw5zeqcKzNmWuzPXpaDVqfQRgv9B3FKDyEUAtC8RSoT4aWbovrbc5IYi_dzDkOiN-5BUi4wms5_GhJzAdr5piZ6q0mtEUOgvmI9dbJ21U"
+        );
+
+        var raw = JSON.stringify({
+          // registration_ids: [
+          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
+          // ],
+          registration_ids: arrToken,
+          notification: {
+            title: "Notif Multi Rona",
+            body: msg,
+          },
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        fetch("https://fcm.googleapis.com/fcm/send", requestOptions)
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+      }
+
+      //INSERT NOTIFIKASI
+      function insertNotif(message) {
+        let param = {
+          message: message,
+        };
+        // let url = "http://multirona.000webhostapp.com/index.php/notifikasi";
+        let url = baseUrl + "notifikasi";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(param),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            console.log(data);
+          })
+          .catch((error) => console.log("error", error));
+      }
+
+      // FUNGSI CLEAR ALL INPUT
+      document
+        .getElementById("clear-all")
+        .addEventListener("click", clearInput);
+      function clearInput() {
+        document.getElementById("produk").value = "";
+        // document.getElementById("id-produk").value = "";
+        document.getElementById("satuan").value = "";
+        document.getElementById("stok").value = "";
+        document.getElementById("harga").value = "";
+        document.getElementById("jumlah").value = "";
+        document.getElementById("diskon").value = "";
+        document.getElementById("diskon-checkbox").checked = false;
+        document.getElementById("diskon").disabled = true;
+        document.getElementById("total").value = "";
+      }
+
+      function clearDetail() {
+        let table = document.getElementById("list-table");
+        for (let i = 1; i < table.length; i++) {
+          table.deleteRow(i);
+        }
+      }
+
+      function myDeleteRow(r) {
+        idxPenjualan--;
+        let idx = r.parentNode.rowIndex;
+        console.log("rowindex:" + idx);
+        let tr = document.getElementsByClassName("detail-row");
+        console.log("tr:" + tr.length);
+        console.log("idxPenjualan:" + idxPenjualan);
+        if (idx < tr.length) {
+          for (let i = idx, j = idxPenjualan; i < tr.length; i++, j++) {
+            tr[i].cells[0].innerHTML = i;
+            console.log(tr[i].cells[0].innerHTML);
+          }
+        }
+        document.getElementById("list-table").deleteRow(idx);
+        arrDetail.splice(idx - 1, idx);
+        console.log(arrDetail);
+        setGrandTotal();
+      }
+
+      // FUNGSI UBAH INT TO RUPIAH FORMAT
+      function rupiahFormat(bilangan) {
+        let number_string = bilangan.toString(),
+          sisa = number_string.length % 3,
+          rupiah = number_string.substr(0, sisa),
+          ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah += separator + ribuan.join(".");
+        }
+        return rupiah;
+      }
+
+      /* FUNGSI FORMAT RUPIAH */
+      function formatRupiah(angka, prefix) {
+        let number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rupiah = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah += separator + ribuan.join(".");
+        }
+
+        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Hero";
+  src: url(../../fonts/Hero/Hero-Bold.ttf);
+}
+
+img {
+  width: 1366px;
+  height: 768px;
+  opacity: 50%;
+  position: absolute;
+}
+
+.background {
+  width: 1360px;
+  height: 768;
+  /* background-image: url("./img/multirona.PNG");
+  background-repeat: no-repeat;
+  background-size: 1360px 688px;
+  opacity: 50%; */
+}
+
+.login {
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgb(236, 253, 2);
+}
+
+label {
+  color: rgb(61, 61, 61);
+  font-weight: bold;
+  font-family: Hero;
+}
+input {
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+@font-face {
+  font-family: Hero;
+  src: url(../../fonts/Hero/Hero-Bold.ttf);
+}
+* {
+  font-family: Hero;
+}
+
+#btnSetDB{
+  margin-top: 50%;
+}

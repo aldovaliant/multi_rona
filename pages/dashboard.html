@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Sistem Informasi Penjualan dan Inventaris Multirona</title>
+    <link rel="stylesheet" href="css/w3.css" />
+    <link rel="stylesheet" href="css/sidenav.css" />
+    <link rel="stylesheet" href="css/reminder.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="../fonts/fontawesome/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="../bootstrap-4.1.3-dist/css/bootstrap.min.css"
+    />
+    <script>
+      window.jQuery = window.$ = require("jquery");
+    </script>
+    <script src="js/popper.min.js"></script>
+    <script src="../bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+    <style>
+      hr {
+        border: 2px solid;
+      }
+      #reminder {
+        text-align: left;
+      }
+    </style>
+  </head>
+
+  <body id="body">
+    <div class="sidenav">
+      <div class="sidebar-content">
+        <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+          <div class="user-pic">
+            <i class="fa fa-user w3-xxlarge"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name"><strong></strong></span><br />
+            <span class="user-role"></span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <h1>Menu</h1>
+      <a class="active" href="dashboard.html"
+        ><i class="fa fa-home w3-xlarge"></i> Dashboard</a
+      >
+      <a href="penjualan.html"
+        ><i class="fa fa-shopping-bag w3-xlarge"></i> Penjualan</a
+      >
+      <button class="dropdown-btn">
+        <i class="fas fa-list-ul w3-xlarge"></i>
+        Inventaris
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="inventaris_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Stok Produk</a
+        >
+        <a href="inventaris_masuk.html"
+          ><i class="fas fa-circle w3-small"></i> Tambah Stok</a
+        >
+        <a href="inventaris_edit.html"
+          ><i class="fas fa-circle w3-small"></i> Edit Stok</a
+        >
+        <a href="peralatan.html"
+          ><i class="fas fa-circle w3-small"></i> Peralatan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Data Produk
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="data_produk_list.html"
+          ><i class="fas fa-circle w3-small"></i> List Produk</a
+        >
+        <a href="data_produk_jenis.html"
+          ><i class="fas fa-circle w3-small"></i> Jenis Produk</a
+        >
+        <a href="data_produk_satuan.html"
+          ><i class="fas fa-circle w3-small"></i> Satuan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Laporan
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="laporan_penjualan.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Penjualan</a
+        >
+        <a href="laporan_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Stok Produk</a
+        >
+      </div>
+      <a href="supplier.html"
+        ><i class="fab fa-dropbox w3-xlarge"></i> Supplier</a
+      >
+      <a href="pelanggan.html"
+        ><i class="fas fa-user w3-xlarge"></i> Pelanggan</a
+      >
+      <a href="pengguna.html" style="bottom: 6%; position: absolute"
+        ><i class="fa fa-user-circle w3-xlarge"></i> Pengguna</a
+      >
+      <a href="login.html" style="bottom: 0; position: absolute"
+        ><i class="fa fa-sign-out-alt w3-xlarge"></i> Keluar</a
+      >
+    </div>
+
+    <!-- Content-->
+    <div class="main">
+      <div id="judul">
+        <h2>Dashboard</h2>
+        <hr />
+      </div>
+
+      <div id="div-button" class="w3-row">
+        <div class="main-button w3-col s4 w3-center">
+          <div class="inner-main w3-blue">
+            <i class="fa fa-shopping-bag w3-xxxlarge"></i>
+            <button class="w3-right" onclick="window.location='penjualan.html'">
+              <i class="fa fa-plus-circle w3-xxlarge"></i>Transaksi Penjualan
+            </button>
+          </div>
+        </div>
+        <div class="main-button w3-col s4 w3-center">
+          <div class="inner-main w3-blue">
+            <i class="fa fa-sign-in-alt w3-xxxlarge"></i>
+            <button
+              class="w3-right"
+              onclick="window.location='inventaris_masuk.html'"
+            >
+              <i class="fa fa-plus-circle w3-xxlarge"></i>Tambah Stok
+            </button>
+          </div>
+        </div>
+        <div class="main-button w3-col s4 w3-center">
+          <div class="inner-main w3-blue">
+            <i class="fa fa-folder-open w3-xxxlarge"></i>
+            <button class="w3-right" onclick="window.location = 'data_produk_list.html'">
+              <i class="fa fa-plus-circle w3-xxlarge"></i>Produk Baru
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-7">
+            <div class="container">
+              <h3>Daftar Produk yang akan segera habis</h3>
+              <p id="text-produk">Tidak Ada Produk yang Stoknya akan habis.</p>
+              <table id="tabel-produkHabis">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama Produk</th>
+                    <th>Jumlah Stok</th>
+                    <th>Batas Re-supply</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <button
+                class="btn btn-primary"
+                style="margin-left: 35%; margin-top: 10px"
+                onclick="window.location = 'inventaris_stok.html'"
+              >
+                Lihat Inventaris Stok
+              </button>
+            </div>
+            <hr />
+            <div class="container">
+              <h3>Notifikasi</h3>
+              <p id="text-notifikasi">Belum Ada Notifikasi hari ini.</p>
+              <table class="table-notif">
+                <thead>
+                  <colgroup>
+                    <col span="1" style="width: 30%" />
+                    <col span="1" style="width: 70%" />
+                  </colgroup>
+                  <th>Tanggal</th>
+                  <th>Notifikasi</th>
+                </thead>
+                <tbody id="tbody-notifikasi">
+                  <!-- <tr>
+                    <td>- Terakhir login : 22/02/2020 16:00</td>
+                  </tr>
+                  <tr>
+                    <td>- Stok tiner sudah diperbarui</td>
+                  </tr>
+                  <tr>
+                    <td>- Stok soda api sudah habis</td>
+                  </tr>
+                  <tr>
+                    <td>- Terakhir login : 22/02/2020 16:00</td>
+                  </tr>
+                  <tr>
+                    <td>- Stok tiner sudah diperbarui</td>
+                  </tr>
+                  <tr>
+                    <td>- Stok soda api sudah habis</td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+            <hr />
+            <div class="container mt-4">
+              <h3>List Penjualan Hari Ini</h3>
+              <p id="text-penjualan">Belum Ada Penjualan hari ini.</p>
+              <table id="tabel-penjualan">
+                <thead>
+                  <colgroup>
+                    <col span="1" style="width: 20%" />
+                    <col span="1" style="width: 40%" />
+                    <col span="1" style="width: 40%" />
+                  </colgroup>
+                  <tr>
+                    <!-- <th>No</th> -->
+                    <th>No.Transaksi</th>
+                    <th>Pelanggan</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-penjualan"></tbody>
+              </table>
+              <button
+                class="btn btn-primary"
+                style="margin-left: 33%; margin-top: 10px"
+                onclick="window.location = 'laporan_penjualan.html'"
+              >
+                Lihat Laporan Penjualan
+              </button>
+            </div>
+          </div>
+
+          <div class="col-xl-5" id="reminder" style="font-size: small">
+            <div class="row">
+              <div class="col">
+                <h3>Reminder</h3>
+                <h6 id="text-reminder">Tidak ada reminder.</h6>
+              </div>
+              <div class="col">
+                <button
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#modalTambahReminder"
+                >
+                  <i class="fa fa-plus-circle"></i> Tambah
+                </button>
+              </div>
+            </div>
+            <table id="tabel-reminder">
+              <thead>
+                <colgroup>
+                  <col span="1" style="width: 20%" />
+                  <col span="1" style="width: 60%" />
+                  <col span="1" style="width: 20%" />
+                </colgroup>
+                <tr>
+                  <th>Deadline</th>
+                  <th>Catatan</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-reminder" style="text-align: left">
+                <!-- <tr>
+                  <td>(15/05/20)</td>
+                  <td>Beli karet rakel di supplier X</td>
+                  <td><button class="btn btn-secondary">detail</button></td>
+                </tr>
+                <tr>
+                  <td>(16/05/20)</td>
+                  <td>Siapin pesanan Multi Garmen</td>
+                  <td><button class="btn btn-secondary">detail</button></td>
+                </tr>
+                <tr>
+                  <td>(20/05/20)</td>
+                  <td>
+                    Siapin pesanan 50 busa, 10 lem meja, 20 screen untuk
+                    customer Y
+                  </td>
+                  <td><button class="btn btn-secondary">detail</button></td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL TAMBAH REMINDER -->
+      <div class="modal" id="modalTambahReminder">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h6 class="modal-title">REMINDER BARU</h6>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                onclick="clearInput()"
+              >
+                &times;
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-edit">
+              <div class="row">
+                <div class="col-5">
+                  <label for="deadline" style="float: right"
+                    >Tanggal Deadline :
+                  </label>
+                </div>
+                <div class="col-7">
+                  <input type="date" id="input-deadline" name="deadline" />
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-5">
+                  <label for="catatan" style="float: right">Catatan : </label>
+                </div>
+                <div class="col-7">
+                  <input type="text" id="input-catatan" name="catatan" />
+                </div>
+              </div>
+              <br />
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-dismiss="modal"
+                onclick="clearInput()"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                onclick="insertReminder()"
+              >
+                Tambah
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/side_nav.js"></script>
+    <script>
+      const Dialogs = require("dialogs");
+      const dialogs = Dialogs();
+      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      // var baseUrl = "http://localhost/multi_rona/";
+      // if (sessionStorage.getItem("online_db") == true)
+      //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      // else baseUrl = "http://localhost/multi_rona/";
+      var arrHabis = [];
+      var arrPenjualan = [];
+      var arrReminder = [];
+      window.onload = getProdukHabis();
+      window.onload = createReminder();
+      window.onload = getPenjualan();
+      window.onload = getNotifikasi();
+
+      function getProdukHabis() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/dashboard/habis";
+        let url = baseUrl + "dashboard/habis";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrHabis = data;
+            createProdukHabis();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function getPenjualan() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/dashboard/penjualan";
+        let url = baseUrl + "dashboard/penjualan";
+        console.log(baseUrl);
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrPenjualan = data;
+            createPenjualan();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function createPenjualan() {
+        if (arrPenjualan.length > 0) {
+          let tbody = document.getElementById("tbody-penjualan");
+
+          for (let i = 0, k = 1; i < arrPenjualan.length; i++, k++) {
+            let tr = document.createElement("tr");
+            let td = document.createElement("td");
+            td.textContent = arrPenjualan[i].no_transaksi;
+            td.className = "list-nama";
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = arrPenjualan[i].nama;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = formatRupiah(arrPenjualan[i].total_pembayaran);
+            td.style.textAlign = "right";
+            tr.appendChild(td);
+
+            tbody.appendChild(tr);
+          }
+          $("#tabel-penjualan").css("display", "block");
+          $("#tabel-penjualan").css("border", "none");
+          $("#text-penjualan").css("display", "none");
+        } else {
+          $("#tabel-penjualan").css("display", "none");
+          $("#text-penjualan").css("display", "block");
+        }
+      }
+
+      function getNotifikasi() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/dashboard/notifikasi";
+        let url = baseUrl + "dashboard/notifikasi";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            if (data.length > 0) {
+              for (let i = 0; i < data.length; i++) {
+                let notifikasi = document.getElementById("tbody-notifikasi");
+                let tr = document.createElement("tr");
+                let td = document.createElement("td");
+                td.textContent = data[i].tanggal;
+                tr.appendChild(td);
+                td = document.createElement("td");
+                td.textContent = data[i].notifikasi;
+                tr.appendChild(td);
+                notifikasi.appendChild(tr);
+              }
+              $("#text-notifikasi").css("display", "none");
+            } else {
+              $(".table-notif").css("display", "none");
+              $("#text-notifikasi").css("display", "block");
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function createProdukHabis() {
+        if (arrHabis.length > 0) {
+          let tbody = document.getElementsByTagName("tbody");
+
+          for (let i = 0, k = 1; i < arrHabis.length; i++, k++) {
+            let tr = document.createElement("tr");
+            tr.className = "danger";
+            // if(parseInt(arrHabis[i].jumlah_utama) <= parseInt(arrHabis[i].batas_resupply)){
+            //   tr.className = "danger";
+            // } else{}
+            let td = document.createElement("td");
+            td.textContent = i + 1;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = arrHabis[i].nama;
+            td.className = "list-nama";
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = arrHabis[i].jumlah_utama;
+            tr.appendChild(td);
+
+            td = document.createElement("td");
+            td.textContent = arrHabis[i].batas_resupply;
+            tr.appendChild(td);
+
+            tbody[0].appendChild(tr);
+          }
+          // $("#tabel-produkHabis").css("display", "block");
+          $("#text-produk").css("display", "none");
+        } else {
+          $("#tabel-produkHabis").css("display", "none");
+          $("#text-produk").css("display", "block");
+        }
+      }
+
+      function createReminder() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/dashboard/reminder";
+        let url = baseUrl + "dashboard/reminder";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            if (data.length > 0) {
+              arrReminder = data;
+              for (let i = 0; i < data.length; i++) {
+                let reminder = document.getElementById("tbody-reminder");
+                let tr = document.createElement("tr");
+                let td = document.createElement("td");
+                td.textContent = data[i].tanggal_deadline;
+                tr.appendChild(td);
+                td = document.createElement("td");
+                td.textContent = data[i].catatan;
+                tr.appendChild(td);
+                td = document.createElement("td");
+                // let btnDetail = document.createElement("button");
+                // btnDetail.textContent = "detail";
+                // btnDetail.className = "btn btn-secondary btn-detail";
+                // btnDetail.onclick = function () {
+                //   previewDetail(this);
+                // };
+                let btnSelesai = document.createElement("button");
+                btnSelesai.textContent = "selesai";
+                btnSelesai.className = "btn btn-primary btn-selesai";
+                btnSelesai.onclick = function () {
+                  setReminderSelesai(this);
+                };
+                // td.appendChild(btnDetail);
+                td.appendChild(btnSelesai);
+                tr.appendChild(td);
+                reminder.appendChild(tr);
+              }
+              // $("#tabel-reminder").css("display", "block");
+              $("#text-reminder").css("display", "none");
+            } else {
+              $("#tabel-reminder").css("display", "none");
+              $("#text-reminder").css("display", "block");
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+            dialogs.alert("Gagal menambahkan reminder baru.");
+          });
+        $(".btn-detail").attr("data-toggle", "modal");
+        $(".btn-detail").attr("data-target", "#modalDetailReminder");
+      }
+
+      // function previewDetail(param) {
+      //   let x = param.parentNode.parentNode.rowIndex - 1;
+      //   let id = arrReminder[x].id;
+      //   let url =
+      //     "http://multirona.000webhostapp.com/index.php/dashboard/reminder";
+      //   fetch(url)
+      //     .then((resp) => resp.json())
+      //     .then(function (data) {
+      //       if (data.length > 0) {
+      //       }
+      //     })
+      //     .catch(function (error) {
+      //       console.log(error);
+      //     });
+      // }
+
+      function setReminderSelesai(param) {
+        let x = param.parentNode.parentNode.rowIndex - 1;
+        let id = arrReminder[x].id;
+        let paramId = {
+          id: id,
+        };
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/dashboard/reminder_done";
+        let url = baseUrl + "dashboard/reminder_done";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(paramId),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            dialogs.alert(data.message, (ok) => {
+              window.location = window.location;
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+            dialogs.alert("Reminder gagal diubah.");
+          });
+      }
+
+      function insertReminder() {
+        if (
+          $("#input-deadline").val() == "" ||
+          $("#input-catatan").val() == ""
+        ) {
+          dialogs.alert("Input harus diisi dengan lengkap.");
+        } else {
+          let deadline = reverseDate($("#input-deadline").val());
+          let param = {
+            deadline: deadline,
+            catatan: $("#input-catatan").val(),
+            fk_user: sessionStorage.getItem("id_user"),
+          };
+          // let url =
+          //   "http://multirona.000webhostapp.com/index.php/dashboard/reminder";
+          let url = baseUrl + "dashboard/reminder";
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(param),
+          })
+            .then((resp) => resp.json())
+            .then(function (data) {
+              dialogs.alert(data.message, (ok) => {
+                window.location = window.location;
+              });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }
+
+      function produkBaru() {
+        sessionStorage.setItem("tambah_produk_dashboard", "1");
+        window.location = "data_produk_list.html";
+      }
+
+      function reverseDate(str) {
+        let year = str.substring(0, 4);
+        let month = str.substring(5, 7);
+        let day = str.substring(8, 10);
+        return year + "-" + month + "-" + day;
+        // console.log(year + "-" + month + "-" + day);
+      }
+
+      /* Fungsi formatRupiah */
+      function formatRupiah(angka, prefix) {
+        let number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rupiah = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah += separator + ribuan.join(".");
+        }
+
+        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Informasi Penjualan dan Inventaris Multirona</title>
+    <link rel="stylesheet" href="css/w3.css" />
+    <link rel="stylesheet" href="css/sidenav.css" />
+    <link rel="stylesheet" href="css/reminder.css" />
+    <link rel="stylesheet" href="../fonts/fontawesome/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="../bootstrap-4.1.3-dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/data_produk_list.css" />
+    <script>
+      window.jQuery = window.$ = require("jquery");
+    </script>
+    <script src="js/popper.min.js"></script>
+    <script src="../bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+    <!-- <link rel="stylesheet" href="css/data_produk_list.css" /> -->
+    <style></style>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+  </head>
+  <body>
+    <div class="sidenav">
+      <div class="sidebar-content">
+        <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+          <div class="user-pic">
+            <i class="fa fa-user w3-xxlarge"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name"><strong>Setiadi</strong></span
+            ><br />
+            <span class="user-role">Owner</span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <h1>Menu</h1>
+      <a href="dashboard.html"
+        ><i class="fa fa-home w3-xlarge"></i> Dashboard</a
+      >
+      <a href="penjualan.html"
+        ><i class="fa fa-shopping-bag w3-xlarge"></i> Penjualan</a
+      >
+      <button class="dropdown-btn">
+        <i class="fas fa-list-ul w3-xlarge"></i>
+        Inventaris
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="inventaris_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Stok Produk</a
+        >
+        <a href="inventaris_masuk.html"
+          ><i class="fas fa-circle w3-small"></i> Tambah Stok</a
+        >
+        <a href="inventaris_edit.html"
+          ><i class="fas fa-circle w3-small"></i> Edit Stok</a
+        >
+        <a href="peralatan.html"
+          ><i class="fas fa-circle w3-small"></i> Peralatan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Data Produk
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a class="active" href="data_produk_list.html"
+          ><i class="fas fa-circle w3-small"></i> List Produk</a
+        >
+        <a href="data_produk_jenis.html"
+          ><i class="fas fa-circle w3-small"></i> Jenis Produk</a
+        >
+        <a href="data_produk_satuan.html"
+          ><i class="fas fa-circle w3-small"></i> Satuan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Laporan
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="laporan_penjualan.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Penjualan</a
+        >
+        <a href="laporan_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Stok Produk</a
+        >
+      </div>
+      <a href="supplier.html"
+        ><i class="fab fa-dropbox w3-xlarge"></i> Supplier</a
+      >
+      <a href="pelanggan.html"
+        ><i class="fas fa-user w3-xlarge"></i> Pelanggan</a
+      >
+      <a href="pengguna.html" style="bottom: 6%; position: absolute"
+        ><i class="fa fa-user-circle w3-xlarge"></i> Pengguna</a
+      >
+      <a href="login.html" style="bottom: 0; position: absolute"
+        ><i class="fa fa-sign-out-alt w3-xlarge"></i> Keluar</a
+      >
+    </div>
+
+    <div class="main">
+      <div class="container" id="judul">
+        <h2>Data Produk</h2>
+        <hr />
+      </div>
+
+      <div class="container list-barang">
+        <h3>List Produk</h3>
+
+        <div class="container">
+          <input
+            type="text"
+            placeholder="Ketik untuk mencari..."
+            id="search-input"
+            name="search"
+          />
+          <i class="fa fa-search"></i>
+
+          <div style="float: right; margin-bottom: 20px">
+            <!-- <button
+              class="search"
+              style="margin-right: 20px"
+              onclick="search()"
+            >
+              <i class="fa fa-search"></i>
+            </button> -->
+            <button
+              class="btn btn-primary"
+              id="tambahBtn"
+              data-toggle="modal"
+              data-target="#modalTambahProduk"
+            >
+              Tambah Produk
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <table class="tabel" id="tabel-stok" style="text-align: center">
+            <colgroup>
+              <col span="1" style="width: 5%" />
+              <col span="1" style="width: 25%" />
+              <col span="1" style="width: 15%" />
+              <col span="1" style="width: 10%" />
+              <col span="1" style="width: 20%" />
+              <col span="1" style="width: 25%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Produk</th>
+                <th>Jenis Produk</th>
+                <th>Eceran</th>
+                <th>Supplier</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL TAMBAH PRODUK -->
+    <div class="modal" id="modalTambahProduk">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h6 class="modal-title">FORM TAMBAH PRODUK</h6>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              onclick="clearInput('input')"
+            >
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div
+            class="modal-body"
+            id="modalTambahProduk"
+            style="text-align: center"
+          >
+            <div class="row">
+              <div class="col">
+                <label for="nama">Nama Produk :</label>
+              </div>
+              <div class="col-8">
+                <input type="text" id="input-nama" name="nama" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="ket">Keterangan :</label>
+              </div>
+              <div class="col-8">
+                <input type="text" id="input-ket" name="ket" />(boleh kosong)
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="jenis">Jenis Produk :</label>
+              </div>
+              <div class="col-8">
+                <select id="input-jenis" name="jenis"></select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="satuan">Satuan Produk :</label>
+              </div>
+              <div class="col-8">
+                <select id="input-satuan" name="satuan"></select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="konversi-utama">Konversi Satuan :</label>
+              </div>
+              <div class="col-8">
+                <input
+                  id="input-konversi-utama"
+                  name="konversi-utama"
+                  type="number"
+                  disabled
+                />
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col">
+                <label for="jumlah-konversi">Jumlah Konversi :</label>
+              </div>
+              <div class="col-8">
+                <input
+                  id="input-jumlah-konversi"
+                  name="jumlah-konversi"
+                  type="number"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="jumlah">Jumlah :</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  id="input-jumlah"
+                  name="jumlah"
+                  placeholder="Jumlah..."
+                />
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col">
+                <label for="batas">Batas Re-supply :</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  id="input-batas"
+                  name="batas"
+                  placeholder="Batas Re-supply..."
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="supplier">Supplier Produk :</label>
+              </div>
+              <div class="col-8">
+                <select id="input-supplier" name="supplier"></select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="hargaBeli">Harga Beli/satuan:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  id="input-hargaBeli"
+                  name="hargaBeli"
+                  placeholder="Harga Beli..."
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="hargaJual">Harga Jual :</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  id="input-hargaJual"
+                  name="hargaJual"
+                  placeholder="Harga Jual..."
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input
+                  style="width: fit-content"
+                  type="checkbox"
+                  id="isEceran"
+                  name="isEceran"
+                />
+                <label for="isEceran">Dijual Eceran? </label>
+                (Centang jika iya)
+              </div>
+            </div>
+
+            <div id="div-ecer" class="div-ecer">
+              <div class="row" style="margin-left: 28%">
+                <button
+                  class="btn btn-primary"
+                  id="btn-ecer"
+                  onclick="addEcer()"
+                >
+                  Tambah Satuan Eceran
+                </button>
+              </div>
+              <div class="container">
+                <div class="row row-ecer" style="margin-top: 5px;">
+                  <div class="col w3-center">
+                    <p>Satuan</p>
+                  </div>
+                  <div class="col">
+                    <p>Konversi</p>
+                  </div>
+                  <div class="col">Harga</div>
+                  <div class="col"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-dismiss="modal"
+              onclick="clearInput('input')"
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-dismiss="modal"
+              onclick="checkInput()"
+            >
+              Simpan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DETAIL PRODUK -->
+    <div class="modal" id="modalDetail">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Detail Produk</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body modal-detail">
+            <div class="row">
+              <div class="col col-detail">
+                <label for="nama-detail">Nama Produk&emsp;&emsp;: </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="nama-detail"
+                  id="nama-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-detail">
+                <label for="ket-detail">Keterangan &emsp; &emsp; : </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="ket-detail"
+                  id="ket-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-detail">
+                <label for="jenis-detail">Jenis Produk &emsp;&emsp; : </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="jenis-detail"
+                  id="jenis-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-detail">
+                <label for="satuan-detail">Satuan Produk &emsp; : </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="satuan-detail"
+                  id="satuan-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col col-detail">
+                <label for="konversi-detail">Jumlah Konversi &nbsp;: </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="konversi-detail"
+                  id="konversi-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-detail">
+                <label for="jumlah-detail">Jumlah Produk &emsp; : </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="jumlah-detail"
+                  id="jumlah-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col col-detail">
+                <label for="batas-detail">Batas Resupply &emsp;: </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="batas-detail"
+                  id="batas-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-detail">
+                <label for="supplier-detail">Supplier Produk &emsp;:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="supplier-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-detail">
+                <label for="hargaBeli-detail"
+                  >Harga Beli &emsp;&emsp;&emsp;&ensp; :
+                </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="hargaBeli-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-detail">
+                <label for="hargaJual-detail"
+                  >Harga Jual &emsp;&emsp;&emsp;&nbsp;:
+                </label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  name="hargaJual-detail"
+                  style="height: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div id="div-ecer" class="div-ecer" style="display: none">
+              <h5 id="ecer-judul">Eceran</h5>
+              <table id="ecer-tbl">
+                <thead>
+                  <tr>
+                    <th>Satuan Eceran</th>
+                    <!-- <th>Jumlah Eceran</th> -->
+                    <th>Harga Eceran</th>
+                  </tr>
+                </thead>
+                <tbody class="ecer-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-dismiss="modal"
+              onclick="clearDetail()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL EDIT PRODUK -->
+    <div class="modal" id="modalEditProduk">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h6 class="modal-title">FORM EDIT PRODUK</h6>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              onclick="clearInput('edit')"
+            >
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body" id="div-edit">
+            <p>Centang pada bagian yang ingin diedit.</p>
+            <div class="row">
+              <div class="col">
+                <label for="nama">Nama Produk :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <input
+                  type="text"
+                  id="edit-nama"
+                  name="nama"
+                  placeholder="Nama Produk..."
+                />
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="jenis">Jenis Produk :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <select id="edit-jenis" name="jenis"></select>
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="batas">Batas Re-supply :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <input
+                  type="text"
+                  id="edit-batas"
+                  name="batas"
+                  placeholder="Batas Re-supply..."
+                />
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="satuan">Satuan Produk :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <select id="edit-satuan" name="satuan"></select>
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="supplier">Supplier Produk :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <select id="edit-supplier" name="supplier"></select>
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="hargaBeli">Harga Beli :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <input
+                  type="number"
+                  id="edit-hargaBeli"
+                  name="hargaBeli"
+                  placeholder="Harga Beli..."
+                />
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="hargaJual">Harga Jual :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <input
+                  type="number"
+                  id="edit-hargaJual"
+                  name="hargaJual"
+                  placeholder="Harga Jual..."
+                />
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <hr />
+            <button
+              class="btn btn-primary"
+              id="btn-ecerTambah"
+              onclick="addEcerEdit()"
+              style="margin-left: 28%"
+            >
+              Tambah Satuan Eceran
+            </button>
+            <div id="edit-ecer" style="padding-left: 10px; padding-right: 10px">
+              <div class="row row-ecerEdit">
+                <div class="col-1"></div>
+                <div class="col">Satuan</div>
+                <!-- <div class="col">
+                  <p>Jumlah</p>
+                </div> -->
+                <div class="col">Harga</div>
+                <div class="col">Aksi</div>
+              </div>
+            </div>
+            <div
+              id="editTambah-ecer"
+              style="padding-left: 10px; padding-right: 10px"
+            ></div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-dismiss="modal"
+              onclick="clearInput('edit')"
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-dismiss="modal"
+              onclick="insertEdit()"
+            >
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL HAPUS PRODUK -->
+    <div class="modal" id="modalHapusProduk">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Hapus Produk</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <p id="hapus-nama"></p>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-dismiss="modal"
+              onclick="hapusProduk()"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/side_nav.js"></script>
+    <script type="text/javascript">
+      const Dialogs = require("dialogs");
+      const dialogs = Dialogs();
+      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      // var baseUrl = "http://localhost/multi_rona/";
+      // if (sessionStorage.getItem("online_db") == true)
+      //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      // else baseUrl = "http://localhost/multi_rona/";
+      var arrProduk = [];
+      var arrJenis = [];
+      var arrSatuan = [];
+      var arrSupplier = [];
+      var curEcer = [];
+      var ecerEditTambah = [];
+      var arrEditEcer = [];
+      var ctAddEcer = 0;
+      var curId;
+      var rowsProduk = [];
+      var arrToken = [];
+      var idxEcer = 0;
+      $(document).ready(function () {
+        getProduk();
+        getJenis();
+        getSatuan();
+        getSupplier();
+        getAndroidToken();
+        // tambahProdukDashboard();
+      });
+
+      function tambahProdukDashboard() {
+        console.log(sessionStorage.getItem("tambah_produk_dashboard"));
+        if (sessionStorage.getItem("tambah_produk_dashboard") == "1") {
+          $("#tambahBtn").click();
+          sessionStorage.setItem("tambah_produk_dashboard", "0");
+        }
+      }
+
+      function getProduk() {
+        let dropdown = document.getElementsByClassName("dropdown-btn");
+        dropdown[0].addEventListener("click", function () {
+          this.classList.toggle("active");
+        });
+
+        // let url = "http://multirona.000webhostapp.com/index.php/produk";
+        let url = baseUrl + "produk";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrProduk = data;
+            createTable();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function getJenis() {
+        // let url = "http://multirona.000webhostapp.com/index.php/produk/jenis";
+        let url = baseUrl + "produk/jenis";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrJenis = data;
+            let jenis = document.getElementById("input-jenis");
+            let jenisEdit = document.getElementById("edit-jenis");
+            for (let i = 0; i < arrJenis.length; i++) {
+              let opt = document.createElement("option");
+              opt.value = arrJenis[i].nama;
+              opt.innerHTML = arrJenis[i].nama;
+              jenis.appendChild(opt);
+              opt = document.createElement("option");
+              opt.value = arrJenis[i].nama;
+              opt.innerHTML = arrJenis[i].nama;
+              jenisEdit.appendChild(opt);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function getSatuan() {
+        // let url = "http://multirona.000webhostapp.com/index.php/produk/satuan";
+        let url = baseUrl + "produk/satuan";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrSatuan = data;
+            let satuan = document.getElementById("input-satuan");
+            let satuanEdit = document.getElementById("edit-satuan");
+            for (let i = 0; i < arrSatuan.length; i++) {
+              let opt = document.createElement("option");
+              opt.value = arrSatuan[i].nama_satuan;
+              opt.innerHTML = arrSatuan[i].nama_satuan;
+              satuan.appendChild(opt);
+              opt = document.createElement("option");
+              opt.value = arrSatuan[i].nama_satuan;
+              opt.innerHTML = arrSatuan[i].nama_satuan;
+              satuanEdit.appendChild(opt);
+            }
+            $("#input-konversi-utama").val(arrSatuan[0].konversi_satuan);
+            // $("#input-jumlah-konversi").val(0.0);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function getSupplier() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/produk/supplier";
+        let url = baseUrl + "produk/supplier";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrSupplier = data;
+            let supplier = document.getElementById("input-supplier");
+            let supplierEdit = document.getElementById("edit-supplier");
+            for (let i = 0; i < arrSupplier.length; i++) {
+              let opt = document.createElement("option");
+              opt.value = arrSupplier[i].nama;
+              opt.innerHTML = arrSupplier[i].nama;
+              supplier.appendChild(opt);
+              opt = document.createElement("option");
+              opt.value = arrSupplier[i].nama;
+              opt.innerHTML = arrSupplier[i].nama;
+              supplierEdit.appendChild(opt);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function getDetail(param, isDetail) {
+        let x = param.parentNode.parentNode.rowIndex - 1;
+        let id = arrProduk[x].id;
+        curId = id;
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/produk/detail?id=" + id;
+        let url = baseUrl + "produk/detail?id=" + id;
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            curEcer = data[0].arrEcer;
+            if (isDetail) {
+              $("input[name=nama-detail]").val(data[0].nama_produk);
+              $("input[name=ket-detail]").val(data[0].keterangan);
+              $("input[name=jenis-detail]").val(data[0].nama_jenis);
+              $("input[name=satuan-detail]").val(data[0].nama_satuan);
+              // $("input[name=konversi-detail]").val(data[0].jumlah_konversi);
+              // $("input[name=jumlah-detail]").val(data[0].jumlah_utama);
+              $("input[name=batas-detail]").val(data[0].batas_resupply);
+              $("input[name=supplier-detail]").val(data[0].nama_supplier);
+              $("input[name=hargaBeli-detail]").val(
+                rupiahFormat(data[0].harga_beli)
+              );
+              if (data[0].harga_jual == null)
+                $("input[name=hargaJual-detail]").val("Dijual eceran");
+              else
+                $("input[name=hargaJual-detail]").val(
+                  rupiahFormat(data[0].harga_jual)
+                );
+              if (data[0].arrEcer.length > 0) {
+                $(".div-ecer").show();
+                let tbody = $(".ecer-tbody");
+                for (let i = 0; i < data[0].arrEcer.length; i++) {
+                  let tr = document.createElement("tr");
+                  let td = document.createElement("td");
+                  td.textContent = data[0].arrEcer[i].nama_satuan;
+                  tr.appendChild(td);
+                  // td = document.createElement("td");
+                  // td.textContent = data[0].arrEcer[i].jumlah_eceran;
+                  // tr.appendChild(td);
+                  td = document.createElement("td");
+                  td.textContent = rupiahFormat(
+                    data[0].arrEcer[i].harga_eceran
+                  );
+                  td.style.textAlign = "right";
+                  tr.appendChild(td);
+                  tbody[0].appendChild(tr);
+                }
+              } else $(".div-ecer").hide();
+            } else {
+              let jenis = document.getElementById("edit-jenis");
+              for (let i = 0; i < jenis.childElementCount; i++) {
+                if (data[0].nama_jenis == jenis.childNodes[i].innerHTML)
+                  jenis.childNodes[i].selected = true;
+              }
+              let satuan = document.getElementById("edit-satuan");
+              for (let i = 0; i < satuan.childElementCount; i++) {
+                if (data[0].nama_satuan == satuan.childNodes[i].innerHTML)
+                  satuan.childNodes[i].selected = true;
+              }
+              let supplier = document.getElementById("edit-supplier");
+              for (let i = 0; i < supplier.childElementCount; i++) {
+                if (data[0].nama_supplier == supplier.childNodes[i].innerHTML)
+                  supplier.childNodes[i].selected = true;
+              }
+              $("#edit-nama").val(data[0].nama_produk);
+              $("#edit-jumlah").val(data[0].jumlah_utama);
+              $("#edit-batas").val(data[0].batas_resupply);
+              $("#edit-hargaBeli").val(data[0].harga_beli);
+              if (data[0].harga_jual == null)
+                $("#edit-hargaJual").disabled = true;
+              else $("#edit-hargaJual").val(data[0].harga_jual);
+              if (data[0].arrEcer.length > 0) {
+                if (data[0].arrEcer.length > 1) {
+                  $("#edit-hargaJual").attr("disabled", true);
+                  let checklist = document.getElementsByClassName(
+                    "checklist-edit"
+                  );
+                  checklist[checklist.length - 1].style.display = "none";
+                }
+                $("#edit-ecer").show();
+                let div = $("#edit-ecer");
+                for (let i = 0; i < data[0].arrEcer.length; i++) {
+                  let row = document.createElement("div");
+                  row.className = "row row-ecerEdit";
+                  let col = document.createElement("div");
+                  col.className = "col col-1";
+                  let checkbox = document.createElement("input");
+                  checkbox.type = "checkbox";
+                  checkbox.className = "checklist-ecer";
+                  col.appendChild(checkbox);
+                  row.appendChild(col);
+                  col = document.createElement("div");
+                  col.className = "col";
+                  let select = document.createElement("select");
+                  select.className = "edit-satuanEcer";
+                  for (let j = 0; j < arrSatuan.length; j++) {
+                    let opt = document.createElement("option");
+                    opt.value = arrSatuan[j].nama_satuan;
+                    opt.innerHTML = arrSatuan[j].nama_satuan;
+                    if (
+                      arrSatuan[j].nama_satuan == data[0].arrEcer[i].nama_satuan
+                    )
+                      opt.selected = true;
+                    select.appendChild(opt);
+                  }
+                  col.appendChild(select);
+                  row.appendChild(col);
+                  input = document.createElement("input");
+                  input.className = "edit-hargaEcer";
+                  input.value = data[0].arrEcer[i].harga_eceran;
+                  col = document.createElement("div");
+                  col.className = "col";
+                  col.appendChild(input);
+                  row.appendChild(col);
+                  let btnHapus = document.createElement("button");
+                  btnHapus.className = "btn-hapusEcer btn btn-danger btn-sm";
+                  btnHapus.textContent = "hapus";
+                  btnHapus.onclick = function () {
+                    hapusEcerPreview(this);
+                    // hapusEcer(this);
+                  };
+                  col = document.createElement("div");
+                  col.className = "col";
+                  col.appendChild(btnHapus);
+                  row.appendChild(col);
+                  div.append(row);
+                }
+              } else $("#edit-ecer").hide();
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function checkInput() {
+        // console.log(document.getElementById("isEceran").checked);
+        // console.log($(".satuan-ecer"));
+        if ($("#input-nama").val() == "") {
+          dialogs.alert("Nama produk harus diisi.");
+        } else if ($("#input-jenis").val() == "") {
+          dialogs.alert("Jenis produk harus diisi.");
+        }
+        // else if ($("#input-jumlah").val() == "") {
+        //   dialogs.alert("Jumlah produk harus diisi.");
+        // }
+        else if ($("#input-batas").val() == "") {
+          dialogs.alert("Batas resupply harus diisi.");
+        } else if ($("#input-satuan").val() == "") {
+          dialogs.alert("Satuan produk harus diisi.");
+        } else if ($("#input-supplier").val() == "") {
+          dialogs.alert("Supplier produk harus diisi.");
+        } else if ($("#input-hargaBeli").val() == "") {
+          dialogs.alert("Harga beli produk harus diisi.");
+        } else if (
+          document.getElementById("isEceran").checked == true &&
+          $(".satuan-ecer").length == 0
+        ) {
+          dialogs.alert("Input eceran harus diisi dengan lengkap.");
+        } else if ($(".satuan-ecer").length > 1) {
+          for (let i = 0; i < $(".satuan-ecer").length; i++) {
+            if (
+              document.getElementsByClassName("satuan-ecer")[i].value == "" ||
+              // document.getElementsByClassName("jumlah-ecer")[i].value == "" ||
+              document.getElementsByClassName("harga-ecer")[i].value == ""
+            )
+              dialogs.alert("Input eceran harus diisi dengan lengkap.");
+            else insertProduk();
+          }
+        } else {
+          insertProduk();
+        }
+      }
+
+      function insertProduk() {
+        let arrEcer = [];
+        let hargaJual = $("#input-hargaJual").val();
+        if (document.getElementById("isEceran").checked) {
+          hargaJual = null;
+          let satuan = $(".satuan-ecer");
+          let harga = $(".harga-ecer");
+          for (let i = 0; i < satuan.length; i++) {
+            let obj = {
+              satuan_ecer: arrSatuan[satuan[i].selectedIndex].id,
+              jumlah_eceran: 0,
+              harga_eceran: harga[i].value,
+              keterangan:
+                "eceran " +
+                $("#input-nama").val() +
+                " " +
+                arrSatuan[satuan[i].selectedIndex].nama_satuan,
+            };
+            arrEcer.push(obj);
+          }
+        }
+        let param = {
+          nama: $("#input-nama").val(),
+          harga_beli: $("#input-hargaBeli").val(),
+          harga_jual: hargaJual,
+          keterangan: $("#input-ket").val(),
+          jumlah_utama: 0,
+          batas_resupply: $("#input-batas").val(),
+          fk_satuan_beli:
+            arrSatuan[$("#input-satuan").prop("selectedIndex")].id,
+          fk_jenis: arrJenis[$("#input-jenis").prop("selectedIndex")].id,
+          is_eceran: document.getElementById("isEceran").checked,
+          fk_supplier:
+            arrSupplier[$("#input-supplier").prop("selectedIndex")].id,
+          arrEcer: arrEcer,
+          jumlah_konversi: 0,
+        };
+        console.log(param);
+        // let url = "http://multirona.000webhostapp.com/index.php/produk/";
+        let url = baseUrl + "produk/";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(param),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            console.log(data);
+            if (data.status == 200) {
+              sendAndroidNotif(data.message);
+              insertNotif(data.message);
+              dialogs.alert(data.message, (ok) => {
+                window.location = window.location;
+              });
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+            dialogs.alert("Gagal menambahkan produk baru.");
+          });
+        clearInput("input");
+      }
+
+      function insertEdit() {
+        let selectedProduk = {};
+        let nama = "",
+          jenis = "",
+          batas = "",
+          satuan = "",
+          supplier = "",
+          hargaBeli = "",
+          hargaJual = "";
+        let parent = document.getElementsByClassName("col-edit");
+        let checklist = document.getElementsByClassName("checklist-edit");
+        for (let i = 0; i < checklist.length; i++) {
+          if (checklist[i].checked) {
+            if (i == 1) {
+              let idx = parent[i].children[0].selectedIndex;
+              jenis = arrJenis[idx].id;
+            } else if (i == 3) {
+              let idx = parent[i].children[0].selectedIndex;
+              selectedProduk[parent[i].children[0].name] = arrSatuan[idx].id;
+              satuan = arrSatuan[idx].id;
+            } else if (i == 4) {
+              let idx = parent[i].children[0].selectedIndex;
+              supplier = arrSupplier[idx].id;
+            } else {
+              selectedProduk[parent[i].children[0].name] =
+                parent[i].children[0].value;
+              if (parent[i].children[0].name == "nama")
+                nama = parent[i].children[0].value;
+              else if (parent[i].children[0].name == "batas")
+                batas = parent[i].children[0].value;
+              else if (parent[i].children[0].name == "hargaBeli")
+                hargaBeli = parent[i].children[0].value;
+              else if (parent[i].children[0].name == "hargaJual")
+                hargaJual = parent[i].children[0].value;
+            }
+          }
+        }
+        parent = document.getElementsByClassName("row-ecerEdit");
+        checklist = document.getElementsByClassName("checklist-ecer");
+        let arr = [];
+        for (let i = 0; i < checklist.length; i++) {
+          if (checklist[i].checked) {
+            let idx = parent[i + 1].children[1].children[0].selectedIndex;
+            let obj = {
+              id_ecer: curEcer[i].id,
+              fk_satuan: arrSatuan[idx].id,
+              harga_eceran: parent[i + 1].children[2].children[0].value,
+            };
+            arr.push(obj);
+          }
+        }
+        let satuanTambah = document.getElementsByClassName(
+          "editTambah-satuanEcer"
+        );
+        let jumlahTambah = document.getElementsByClassName(
+          "editTambah-jumlahEcer"
+        );
+        let hargaTambah = document.getElementsByClassName(
+          "editTambah-hargaEcer"
+        );
+        let arrTambah = [];
+        for (let i = 0; i < satuanTambah.length; i++) {
+          let obj = {
+            fk_satuan: arrSatuan[satuanTambah[i].selectedIndex].id,
+            harga_eceran: hargaTambah[i].value,
+          };
+          arrTambah.push(obj);
+        }
+        console.log(arrTambah.length);
+        if (
+          nama != "" ||
+          jenis != "" ||
+          batas != "" ||
+          satuan != "" ||
+          supplier != "" ||
+          hargaBeli != "" ||
+          hargaJual != "" ||
+          arr.length != 0 ||
+          arrTambah.length != 0 ||
+          arrEditEcer.length != 0
+        ) {
+          let bool1 = true;
+          selectedProduk = {
+            id_produk: curId,
+            nama: nama,
+            jenis: jenis,
+            batas: batas,
+            satuan: satuan,
+            supplier: supplier,
+            hargaBeli: hargaBeli,
+            hargaJual: hargaJual,
+            arrEcer: arr,
+            arrTambah: arrTambah,
+          };
+          console.log(selectedProduk);
+          // let url = "http://multirona.000webhostapp.com/index.php/produk/edit";
+          let url = baseUrl + "produk/edit";
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(selectedProduk),
+          })
+            .then((resp) => resp.json())
+            .then(function (data) {
+              console.log(data);
+              if (data.status == 200) {
+                bool1 = true;
+                // dialogs.alert(data.message, (ok) => {
+                //   window.location = window.location;
+                // });
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+              // dialogs.alert("Gagal mengedit produk.");
+              bool1 = false;
+            });
+          console.log(arrEditEcer);
+          if (arrEditEcer.length > 0) {
+            console.log("masuk");
+            if (curEcer.length == 1 && $("#edit-hargaJual").val() == "") {
+              dialogs.alert(
+                "Input harga jual harus diisi jika produk tidak punya satuan eceran."
+              );
+            } else {
+              let bool2 = hapusEcer(0);
+              console.log("bool1:" + bool1 + ",bool2:" + bool2);
+              if (bool1 && bool2) {
+                sendAndroidNotif("Berhasil mengedit produk.");
+                insertNotif("Berhasil mengedit produk.");
+                dialogs.alert("Berhasil mengedit produk.", (ok) => {
+                  refreshPage();
+                });
+              }
+            }
+          } else if (bool1) {
+            sendAndroidNotif("Berhasil mengedit produk.");
+            insertNotif("Berhasil mengedit produk.");
+            dialogs.alert("Berhasil mengedit produk.", (ok) => {
+              refreshPage();
+            });
+          } else {
+            dialogs.alert("Gagal mengedit produk.");
+          }
+          selectedProduk = {};
+        }
+      }
+
+      function editProduk(param) {
+        getDetail(param, false);
+      }
+
+      function previewHapus(param) {
+        let x = param.parentNode.parentNode.rowIndex - 1;
+        let id = arrProduk[x].id;
+        curId = id;
+        $("#hapus-nama").text(
+          "Apakah anda yakin ingin menghapus produk " + arrProduk[x].nama + "?"
+        );
+      }
+
+      function hapusProduk() {
+        // dialogs.confirm(
+        //   "Apakah Anda yakin ingin menghapus produk ini?",
+        //   (ok) => {
+        // let x = param.parentNode.parentNode.rowIndex - 1;
+        // let id = arrProduk[x].id;
+        let paramId = {
+          id: curId,
+        };
+        // let url = "http://multirona.000webhostapp.com/index.php/produk/hapus";
+        let url = baseUrl + "produk/hapus";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(paramId),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            sendAndroidNotif(data.message);
+            dialogs.alert(data.message, (ok) => {
+              window.location = window.location;
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        //   }
+        // );
+      }
+
+      function hapusEcerPreview(param) {
+        let arrElement = Array.prototype.slice.call(
+          document.getElementsByClassName("btn-hapusEcer"),
+          0
+        );
+        let idx = arrElement.indexOf(event.currentTarget) + 1;
+        let rows = document.getElementsByClassName("row-ecerEdit");
+        rows[idx].style.display = "none";
+        arrEditEcer.push(curEcer[idx - 1].id);
+        // dialogs.confirm(
+        //   "Apakah anda yakin ingin menghapus eceran ini?",
+        //   (ok) => {
+        //   }
+        // );
+      }
+
+      function hapusEcer(param) {
+        // let arrElement = Array.prototype.slice.call(
+        //   document.getElementsByClassName("btn-hapusEcer"),
+        //   0
+        // );
+        // let idx = arrElement.indexOf(event.currentTarget);
+        // console.log(curEcer.length);
+        // if (curEcer.length == 1 && $("#edit-hargaJual").val() == "") {
+        //   dialogs.alert(
+        //     "Input harga jual harus diisi jika produk tidak punya satuan eceran."
+        //   );
+        // } else {
+        let id = {
+          // id: curEcer[idx].id,
+          arrId: arrEditEcer,
+          id_produk: curId,
+          ecer_length: curEcer.length,
+          harga_jual: $("#edit-hargaJual").val(),
+        };
+        // if (curEcer.length == 1) id.harga_jual = $("#edit-hargaJual").val();
+        console.log(id);
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/produk/hapusEcer";
+        let url = baseUrl + "produk/hapusEcer";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(id),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            // refreshPage();
+            // dialogs.alert(data.message);
+            return true;
+          })
+          .catch(function (error) {
+            console.log(error);
+            // dialogs.alert("Gagal menghapus eceran.");
+            return false;
+          });
+        // }
+        return true;
+        // }
+      }
+
+      function refreshPage() {
+        window.location = window.location;
+      }
+
+      // CLEAR INPUT DI MODAL TAMBAH PRODUK
+      function clearInput(param) {
+        document.getElementById(param + "-nama").value = "";
+        // if (param == "input")
+        //   document.getElementById(param + "-jumlah").value = "";
+        document.getElementById(param + "-batas").value = "";
+        document.getElementById(param + "-hargaBeli").value = "";
+        document.getElementById(param + "-hargaJual").value = "";
+        if (document.getElementById("isEceran").checked) $("#isEceran").click();
+        idxEcer = 0;
+        $(".row-ecer").slice(1).remove();
+        $(".row-ecerEdit").slice(1).remove();
+      }
+
+      // CLEAR INPUT DI MODAL DETAIL PRODUK
+      function clearDetail() {
+        $("input[name=nama-detail]").val("");
+        $("input[name=jenis-detail]").val("");
+        $("input[name=konversi-detail]").val("");
+        $("input[name=jumlah-detail]").val("");
+        $("input[name=batas-detail]").val("");
+        $("input[name=satuan-detail]").val("");
+        $("input[name=supplier-detail]").val("");
+        $("input[name=hargaBeli-detail]").val("");
+        $("input[name=hargaJual-detail]").val("");
+        $(".ecer-tbody").empty();
+      }
+
+      // MODAL TAMBAH EVENT LISTENER
+      $("#tambahBtn").click(function () {
+        addEcer();
+      });
+      $("#modalTambahProduk").on("hidden.bs.modal", function (e) {
+        clearInput("input");
+      });
+      $("#modalDetail").on("hidden.bs.modal", function (e) {
+        clearDetail();
+      });
+      $("#modalEditProduk").on("hidden.bs.modal", function (e) {
+        clearInput("edit");
+      });
+      $("#isEceran").change(function () {
+        if (this.checked) {
+          document.getElementById("input-hargaJual").value = "";
+          document.getElementById("input-hargaJual").disabled = true;
+          document.getElementById("div-ecer").style.display = "block";
+        } else {
+          document.getElementById("input-hargaJual").disabled = false;
+          document.getElementById("div-ecer").style.display = "none";
+        }
+      });
+      $("#input-satuan").on("input", function () {
+        $("#input-konversi-utama").val(
+          arrSatuan[this.selectedIndex].konversi_satuan
+        );
+      });
+
+      // TAMBAH ECERAN DI MODAL TAMBAH PRODUK
+      function addEcer() {
+        let parent = document.getElementsByClassName("div-ecer");
+        let row = document.createElement("div");
+        row.className = "row row-ecer";
+        let col = document.createElement("div");
+        col.className = "col";
+        let select = document.createElement("select");
+        select.className = "satuan-ecer";
+        select.style.height = "25px";
+        select.style.width = "100%";
+        col.appendChild(select);
+        row.appendChild(col);
+        for (let i = 0; i < arrSatuan.length; i++) {
+          let opt = document.createElement("option");
+          opt.value = arrSatuan[i].nama_satuan;
+          opt.innerHTML = arrSatuan[i].nama_satuan;
+          select.appendChild(opt);
+        }
+        let input = document.createElement("input");
+        input.type = "number";
+        input.disabled = true;
+        input.className = "konversi-ecer";
+        input.value = arrSatuan[0].konversi_satuan;
+        input.style.height = "25px";
+        input.style.width = "100%";
+        col = document.createElement("div");
+        col.className = "col";
+        col.appendChild(input);
+        row.appendChild(col);
+
+        input = document.createElement("input");
+        input.type = "number";
+        input.className = "harga-ecer";
+        input.style.height = "25px";
+        input.style.width = "100%";
+        col = document.createElement("div");
+        col.className = "col";
+        col.appendChild(input);
+        row.appendChild(col);
+
+        let btnHapus = document.createElement("button");
+        btnHapus.className = "btn-hapusEcer btn btn-danger btn-sm";
+        btnHapus.textContent = "hapus";
+        btnHapus.onclick = function () {
+          myDeleteRow(idxEcer);
+        };
+        idxEcer++;
+        col = document.createElement("div");
+        col.className = "col";
+        col.appendChild(btnHapus);
+        row.appendChild(col);
+        parent[0].appendChild(row);
+
+        let listEcer = $(".satuan-ecer");
+        for (let i = 0; i < listEcer.length; i++) {
+          listEcer[i].oninput = function () {
+            document.getElementsByClassName("konversi-ecer")[i].value =
+              arrSatuan[listEcer[i].selectedIndex].konversi_satuan;
+          };
+        }
+      }
+      function myDeleteRow(r) {
+        let arrElement = Array.prototype.slice.call(
+          document.getElementsByClassName("btn-hapusEcer"),
+          0
+        );
+        let idx = arrElement.indexOf(event.currentTarget) + 1;
+        let rows = document.getElementsByClassName("row-ecer");
+        rows[idx].remove();
+      }
+
+      function addEcerEdit() {
+        let div = $("#editTambah-ecer");
+        div.show();
+        let row = document.createElement("div");
+        row.className = "row row-ecerTambah";
+        let col = document.createElement("div");
+        col.className = "col";
+        let select = document.createElement("select");
+        select.className = "editTambah-satuanEcer";
+        for (let j = 0; j < arrSatuan.length; j++) {
+          let opt = document.createElement("option");
+          opt.value = arrSatuan[j].nama_satuan;
+          opt.innerHTML = arrSatuan[j].nama_satuan;
+          select.appendChild(opt);
+        }
+        col.appendChild(select);
+        row.appendChild(col);
+        // input = document.createElement("input");
+        // input.className = "editTambah-jumlahEcer";
+        // input.placeholder = "Jumlah...";
+        // col = document.createElement("div");
+        // col.className = "col";
+        // col.appendChild(input);
+        // row.appendChild(col);
+        input = document.createElement("input");
+        input.className = "editTambah-hargaEcer";
+        input.placeholder = "Harga...";
+        col = document.createElement("div");
+        col.className = "col";
+        col.appendChild(input);
+        row.appendChild(col);
+        let btnHapus = document.createElement("button");
+        btnHapus.className = "btn-hapusEcer btn btn-danger btn-sm";
+        btnHapus.textContent = "hapus";
+        btnHapus.onclick = function () {
+          hapusEditTambahEcer();
+        };
+        col = document.createElement("div");
+        col.className = "col";
+        col.appendChild(btnHapus);
+        row.appendChild(col);
+        div.append(row);
+      }
+
+      // MEMBUAT TABEL DATA PRODUK
+      function createTable() {
+        let tbl = document.createElement("table");
+        let thead = document.createElement("thead");
+        let tbody = document.getElementsByTagName("tbody");
+
+        for (let i = 0, k = 1; i < arrProduk.length; i++, k++) {
+          let btnDetail = document.createElement("button");
+          btnDetail.appendChild(document.createTextNode("detail"));
+          btnDetail.className = "btn btn-secondary btn-aksi btn-detail";
+          btnDetail.onclick = function () {
+            getDetail(this, true);
+          };
+          let btnEdit = document.createElement("button");
+          let btnHapus = document.createElement("button");
+          if (sessionStorage.getItem("jenis_user") == "pemilik") {
+            btnEdit.appendChild(document.createTextNode("edit"));
+            btnEdit.className = "btn btn-primary btn-aksi btn-edit";
+            btnEdit.onclick = function () {
+              editProduk(this);
+            };
+            btnHapus.appendChild(document.createTextNode("hapus"));
+            btnHapus.className = "btn btn-danger btn-aksi btn-hapus";
+            btnHapus.onclick = function () {
+              previewHapus(this);
+            };
+          }
+
+          let tr = document.createElement("tr");
+          let td = document.createElement("td");
+          td.textContent = i + 1;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrProduk[i].nama;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrProduk[i].nama_jenis;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          if (arrProduk[i].is_eceran == 0) td.textContent = "Tidak";
+          else td.textContent = "Ada";
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrProduk[i].nama_supplier;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.appendChild(btnDetail);
+          if (sessionStorage.getItem("jenis_user") == "pemilik") {
+            td.appendChild(btnEdit);
+            td.appendChild(btnHapus);
+          }
+          tr.appendChild(td);
+
+          tbody[0].appendChild(tr);
+          rowsProduk.push(tr);
+        }
+        $(".btn-detail").attr("data-toggle", "modal");
+        $(".btn-detail").attr("data-target", "#modalDetail");
+        $(".btn-edit").attr("data-toggle", "modal");
+        $(".btn-edit").attr("data-target", "#modalEditProduk");
+        $(".btn-hapus").attr("data-toggle", "modal");
+        $(".btn-hapus").attr("data-target", "#modalHapusProduk");
+      }
+
+      function getAndroidToken() {
+        // let url = "http://multirona.000webhostapp.com/index.php/android/token";
+        let url = baseUrl + "android/token";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+              arrToken.push(data[i].token);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function sendAndroidNotif(msg) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-type", "application/json");
+        myHeaders.append(
+          "Authorization",
+          "key=AAAA50qCXc8:APA91bHjNNL3LH6gCsEVUy4qhO_2wU08w-MQw5zeqcKzNmWuzPXpaDVqfQRgv9B3FKDyEUAtC8RSoT4aWbovrbc5IYi_dzDkOiN-5BUi4wms5_GhJzAdr5piZ6q0mtEUOgvmI9dbJ21U"
+        );
+
+        var raw = JSON.stringify({
+          // registration_ids: [
+          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
+          // ],
+          registration_ids: arrToken,
+          notification: {
+            title: "Notif Multi Rona",
+            body: msg,
+          },
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        fetch("https://fcm.googleapis.com/fcm/send", requestOptions)
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+      }
+
+      //INSERT NOTIFIKASI
+      function insertNotif(message) {
+        let param = {
+          message: message,
+        };
+        // let url = "http://multirona.000webhostapp.com/index.php/notifikasi";
+        let url = baseUrl + "notifikasi";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(param),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            console.log(data);
+          })
+          .catch((error) => console.log("error", error));
+      }
+
+      $(document).ready(function () {
+        $("#search-input").on("keyup", function () {
+          let value = $(this).val().toLowerCase();
+          $("#tabel-stok tbody tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
+        });
+      });
+
+      function rupiahFormat(bilangan) {
+        let number_string = bilangan.toString(),
+          sisa = number_string.length % 3,
+          rupiah = number_string.substr(0, sisa),
+          ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah += separator + ribuan.join(".");
+        }
+        return rupiah;
+      }
+
+      /* FUNGSI FORMAT RUPIAH */
+      function formatRupiah(angka, prefix) {
+        let number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rupiah = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah += separator + ribuan.join(".");
+        }
+
+        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+      }
+    </script>
+  </body>
+</html>

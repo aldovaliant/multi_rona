@@ -1,0 +1,22 @@
+{
+  "name": "multi_rona",
+  "version": "1.0.0",
+  "description": "Multi Rona Desktop app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Aldo Verrell Valiant",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^10.1.3"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "dialogs": "^2.0.1",
+    "electron-alert": "^0.1.11",
+    "jquery": "^3.5.1",
+    "tableexport": "^5.2.0"
+  }
+}

@@ -1,0 +1,691 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Informasi Penjualan dan Inventaris Multirona</title>
+    <link rel="stylesheet" href="css/w3.css" />
+    <link rel="stylesheet" href="css/sidenav.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="../fonts/fontawesome/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="../bootstrap-4.1.3-dist/css/bootstrap.min.css"
+    />
+    <script>
+      window.jQuery = window.$ = require("jquery");
+    </script>
+    <script src="js/popper.min.js"></script>
+    <script src="../bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        font-family: Hero;
+      }
+      hr {
+        border: 2px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidenav">
+      <div class="sidebar-content">
+        <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+          <div class="user-pic">
+            <i class="fa fa-user w3-xxlarge"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name"><strong>Setiadi</strong></span
+            ><br />
+            <span class="user-role">Owner</span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <h1>Menu</h1>
+      <a href="dashboard.html"
+        ><i class="fa fa-home w3-xlarge"></i> Dashboard</a
+      >
+      <a href="penjualan.html"
+        ><i class="fa fa-shopping-bag w3-xlarge"></i> Penjualan</a
+      >
+      <button class="dropdown-btn">
+        <i class="fas fa-list-ul w3-xlarge"></i>
+        Inventaris
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="inventaris_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Stok Produk</a
+        >
+        <a href="inventaris_masuk.html"
+          ><i class="fas fa-circle w3-small"></i> Tambah Stok</a
+        >
+        <a href="inventaris_edit.html"
+          ><i class="fas fa-circle w3-small"></i> Edit Stok</a
+        >
+        <a class="active" href="peralatan.html"
+          ><i class="fas fa-circle w3-small"></i> Peralatan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Data Produk
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="data_produk_list.html"
+          ><i class="fas fa-circle w3-small"></i> List Produk</a
+        >
+        <a href="data_produk_jenis.html"
+          ><i class="fas fa-circle w3-small"></i> Jenis Produk</a
+        >
+        <a href="data_produk_satuan.html"
+          ><i class="fas fa-circle w3-small"></i> Satuan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Laporan
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="laporan_penjualan.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Penjualan</a
+        >
+        <a href="laporan_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Stok Produk</a
+        >
+      </div>
+      <a href="supplier.html"
+        ><i class="fab fa-dropbox w3-xlarge"></i> Supplier</a
+      >
+      <a href="pelanggan.html"
+        ><i class="fas fa-user w3-xlarge"></i> Pelanggan</a
+      >
+      <a href="pengguna.html" style="bottom: 6%; position: absolute"
+        ><i class="fa fa-user-circle w3-xlarge"></i> Pengguna</a
+      >
+      <a href="login.html" style="bottom: 0; position: absolute"
+        ><i class="fa fa-sign-out-alt w3-xlarge"></i> Keluar</a
+      >
+    </div>
+
+    <div class="main">
+      <div class="container" id="judul">
+        <h2>Inventaris</h2>
+        <hr />
+      </div>
+
+      <div class="container">
+        <h3>Peralatan</h3>
+        <div style="margin-bottom: 10px">
+          <button
+            class="btn btn-success"
+            id="tambahBtn"
+            onclick="window.location='riwayat_peralatan.html'"
+          >
+            Lihat Riwayat Update
+          </button>
+
+          <div style="float: right">
+            <input
+              type="text"
+              placeholder="Ketik untuk mencari..."
+              id="search-input"
+            />
+            <!-- <button class="search" style="margin-right: 20px"> -->
+            <i class="fa fa-search"></i>&emsp;
+            <!-- </button> -->
+            <button
+              class="btn btn-primary"
+              id="tambahBtn"
+              data-toggle="modal"
+              data-target="#modalTambahPeralatan"
+            >
+              Tambah Alat
+            </button>
+          </div>
+        </div>
+
+        <table class="" style="text-align: center">
+          <colgroup>
+            <col span="1" style="width: 5%" />
+            <col span="1" style="width: 20%" />
+            <col span="1" style="width: 35%" />
+            <col span="1" style="width: 20%" />
+            <col span="1" style="width: 20%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Alat</th>
+              <th>Keperluan</th>
+              <th>Kondisi</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tabel-peralatan"></tbody>
+        </table>
+      </div>
+
+      <!-- MODAL TAMBAH PRODUK -->
+      <div class="modal" id="modalTambahPeralatan">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h6 class="modal-title">FORM TAMBAH PERALATAN</h6>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                onclick="clearInput('tambah')"
+              >
+                &times;
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-edit" style="margin-left: 25%">
+              <div class="row">
+                <label for="nama">Nama Alat :&emsp;</label>
+                <input type="text" id="tambah-nama" name="nama" />
+              </div>
+              <br />
+              <div class="row">
+                <label for="keperluan">Keperluan : &emsp;</label>
+                <input type="text" id="tambah-keperluan" name="keperluan" />
+              </div>
+              <br />
+              <div class="row">
+                <label for="kondisi">Kondisi &emsp;&ensp;:&emsp;&nbsp;</label>
+                <input type="text" id="tambah-kondisi" name="kondisi" />
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-dismiss="modal"
+                onclick="clearInput('tambah')"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                onclick="insertPeralatan()"
+              >
+                Tambah
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL EDIT PERALATAN -->
+      <div class="modal" id="modalEditPeralatan">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h6 class="modal-title">FORM UPDATE KONDISI</h6>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                onclick="clearInput('edit')"
+              >
+                &times;
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-edit" style="margin-left: 25%">
+              <div class="row">
+                <label for="nama">Nama Alat :&emsp;</label>
+                <input type="text" id="edit-nama" name="nama" disabled />
+              </div>
+              <br />
+              <div class="row">
+                <label for="keperluan">Keperluan : &emsp;</label>
+                <input
+                  type="text"
+                  id="edit-keperluan"
+                  name="keperluan"
+                  disabled
+                />
+              </div>
+              <br />
+              <div class="row">
+                <label for="kondisi">Kondisi &emsp;&ensp;:&emsp;&nbsp;</label>
+                <input type="text" id="edit-kondisi" name="kondisi" />
+              </div>
+              <br />
+              <div class="row">
+                <label for="catatan">Catatan &emsp;:&emsp;&nbsp;</label>
+                <input type="text" id="edit-catatan" name="catatan" />
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-dismiss="modal"
+                onclick="clearInput('edit')"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                onclick="insertEdit()"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL HAPUS PERALATAN -->
+      <div class="modal" id="modalHapusPeralatan">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Hapus Peralatan</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <p id="hapus-nama"></p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-dismiss="modal"
+                onclick="hapusAlat()"
+              >
+                Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/side_nav.js"></script>
+    <script>
+      const Dialogs = require("dialogs");
+      const dialogs = Dialogs();
+      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      // var baseUrl = "http://localhost/multi_rona/";
+      // if (sessionStorage.getItem("online_db") == true)
+      //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      // else baseUrl = "http://localhost/multi_rona/";
+      var arrPeralatan = [];
+      var curEdit = {
+        nama: false,
+        kondisi: false,
+        keperluan: false,
+        catatan: false,
+      };
+      // var alatEdit = {};
+      var arrToken = [];
+      window.onload = getPeralatan();
+      window.onload = getAndroidToken();
+
+      function getPeralatan() {
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/inventaris/peralatan";
+        let url = baseUrl + "inventaris/peralatan";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrPeralatan = data;
+            createTable();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function createTable() {
+        let tbody = document.getElementsByTagName("tbody");
+
+        for (let i = 0, k = 1; i < arrPeralatan.length; i++, k++) {
+          // let btnDetail = document.createElement("button");
+          // btnDetail.appendChild(document.createTextNode("detail"));
+          // btnDetail.className = "btn btn-outline-secondary btn-aksi";
+          let btnEdit = document.createElement("button");
+          btnEdit.appendChild(document.createTextNode("update"));
+          btnEdit.className = "btn btn-primary btn-aksi btn-edit";
+          btnEdit.onclick = function () {
+            previewEdit(this);
+          };
+          let btnHapus = document.createElement("button");
+          btnHapus.appendChild(document.createTextNode("hapus"));
+          btnHapus.className = "btn btn-danger btn-aksi btn-hapus";
+          btnHapus.onclick = function () {
+            previewHapus(this);
+          };
+
+          let tr = document.createElement("tr");
+          let td = document.createElement("td");
+          td.textContent = i + 1;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].nama;
+          td.className = "list-nama";
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].keperluan;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].kondisi;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.appendChild(btnEdit);
+          td.appendChild(btnHapus);
+          tr.appendChild(td);
+
+          tbody[0].appendChild(tr);
+        }
+        $(".btn-edit").attr("data-toggle", "modal");
+        $(".btn-edit").attr("data-target", "#modalEditPeralatan");
+        $(".btn-hapus").attr("data-toggle", "modal");
+        $(".btn-hapus").attr("data-target", "#modalHapusPeralatan");
+      }
+
+      $("#modalTambahPeralatan").on("hidden.bs.modal", function (e) {
+        clearInput("tambah");
+      });
+      $("#modalEditPeralatan").on("hidden.bs.modal", function (e) {
+        clearInput("edit");
+      });
+
+      // FUNGSI EDIT PERALATAN
+      function previewEdit(param) {
+        let x = param.parentNode.parentNode.rowIndex - 1;
+        let id = arrPeralatan[x].id;
+        curEdit.id = id;
+        curEdit.kondisiAwal = arrPeralatan[x].kondisi;
+        $("#edit-nama").val(arrPeralatan[x].nama);
+        $("#edit-keperluan").val(arrPeralatan[x].keperluan);
+        $("#edit-kondisi").val(arrPeralatan[x].kondisi);
+      }
+      // $("#edit-nama").keyup(function () {
+      //   // curEdit.nama = $("#edit-nama").val();
+      //   curEdit.nama = true;
+      // });
+      // $("#edit-keperluan").keyup(function () {
+      //   // curEdit.keperluan = $("#edit-keperluan").val();
+      //   curEdit.keperluan = true;
+      // });
+      $("#edit-kondisi").keyup(function () {
+        // curEdit.kondisi = $("#edit-kondisi").val();
+        curEdit.kondisi = true;
+      });
+      $("#edit-catatan").keyup(function () {
+        // curEdit.catatan = $("#edit-catatan").val();
+        curEdit.catatan = true;
+      });
+      function insertEdit() {
+        // if (curEdit.nama) param.nama = $("#edit-nama").val();
+        // if (curEdit.keperluan) param.keperluan = $("#edit-keperluan").val();
+        // if (curEdit.kondisi) param.kondisi = $("#edit-kondisi").val();
+        // let objLength = Object.keys(param).length;
+        // console.log(param.kondisi);
+
+        if (curEdit.catatan == false) {
+          dialogs.alert("Catatan harus diisi.");
+        } else if (curEdit.kondisi == false) {
+          dialogs.alert("Kondisi harus berubah.");
+        } else {
+          let dataUpdate = {};
+          // alatEdit.nama = $("#edit-nama").val();
+          dataUpdate.fk_peralatan = curEdit.id;
+          dataUpdate.kondisi_awal = curEdit.kondisiAwal;
+          dataUpdate.kondisi_akhir = $("#edit-kondisi").val();
+          dataUpdate.catatan = $("#edit-catatan").val();
+          dataUpdate.fk_user = sessionStorage.getItem("id_user");
+          let param = {
+            kondisi: $("#edit-kondisi").val(),
+          };
+          param.id = curEdit.id;
+          let url = baseUrl + "inventaris/peralatan_edit";
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(param),
+          })
+            .then((resp) => resp.json())
+            .then(function (data) {
+              if (data.status == 200) {
+                insertRiwayat(dataUpdate);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        // curEdit = {};
+      }
+
+      function previewHapus(param) {
+        let x = param.parentNode.parentNode.rowIndex - 1;
+        let id = arrPeralatan[x].id;
+        curId = id;
+        $("#hapus-nama").text(
+          "Apakah anda yakin ingin menghapus alat " + arrPeralatan[x].nama + "?"
+        );
+      }
+
+      function hapusAlat() {
+        let paramId = {
+          id: curId,
+        };
+        let url = baseUrl + "inventaris/hapus_peralatan";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(paramId),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            sendAndroidNotif(data.message);
+            dialogs.alert(data.message, (ok) => {
+              window.location = window.location;
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function insertRiwayat(dataUpdate) {
+        let param = {
+          nama: $("#edit-nama").val(),
+          fk_peralatan: curEdit.id,
+          kondisi_awal: curEdit.kondisiAwal,
+          kondisi_akhir: $("#edit-kondisi").val(),
+          catatan: $("#edit-catatan").val(),
+          fk_user: sessionStorage.getItem("id_user"),
+        };
+        // let url =
+        //   "http://multirona.000webhostapp.com/index.php/inventaris/peralatan_riwayat";
+        let url = baseUrl + "inventaris/peralatan_riwayat";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(dataUpdate),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            if (data.status == 200) {
+              sendAndroidNotif(data.message);
+              insertNotif(data.message);
+              dialogs.alert(data.message, (ok) => {
+                window.location = window.location;
+              });
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+            dialogs.alert("Gagal memperbarui peralatan.");
+          });
+      }
+
+      // CLEAR INPUT MODAL
+      function clearInput(param) {
+        $("#" + param + "-nama").val("");
+        $("#" + param + "-keperluan").val("");
+        $("#" + param + "-kondisi").val("");
+      }
+
+      // INSERT NEW PERALATAN
+      function insertPeralatan() {
+        if (
+          $("#tambah-nama").val() == "" ||
+          $("#tambah-keperluan").val() == "" ||
+          $("#tambah-kondisi").val() == ""
+        ) {
+          dialogs.alert("Input harus diisi dengan lengkap.");
+        } else {
+          let param = {
+            nama: $("#tambah-nama").val(),
+            keperluan: $("#tambah-keperluan").val(),
+            kondisi: $("#tambah-kondisi").val(),
+          };
+          // let url =
+          //   "http://multirona.000webhostapp.com/index.php/inventaris/peralatan";
+          let url = baseUrl + "inventaris/peralatan";
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(param),
+          })
+            .then((resp) => resp.json())
+            .then(function (data) {
+              sendAndroidNotif(data.message);
+              insertNotif(data.message);
+              dialogs.alert(data.message, (ok) => {
+                window.location = window.location;
+              });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }
+
+      function getAndroidToken() {
+        // let url = "http://multirona.000webhostapp.com/index.php/android/token";
+        let url = baseUrl + "android/token";
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+              arrToken.push(data[i].token);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function sendAndroidNotif(msg) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-type", "application/json");
+        myHeaders.append(
+          "Authorization",
+          "key=AAAA50qCXc8:APA91bHjNNL3LH6gCsEVUy4qhO_2wU08w-MQw5zeqcKzNmWuzPXpaDVqfQRgv9B3FKDyEUAtC8RSoT4aWbovrbc5IYi_dzDkOiN-5BUi4wms5_GhJzAdr5piZ6q0mtEUOgvmI9dbJ21U"
+        );
+
+        var raw = JSON.stringify({
+          // registration_ids: [
+          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
+          // ],
+          registration_ids: arrToken,
+          notification: {
+            title: "Notif Multi Rona",
+            body: msg,
+          },
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        fetch("https://fcm.googleapis.com/fcm/send", requestOptions)
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+      }
+
+      //INSERT NOTIFIKASI
+      function insertNotif(message) {
+        let param = {
+          message: message,
+        };
+        // let url = "http://multirona.000webhostapp.com/index.php/notifikasi";
+        let url = baseUrl + "notifikasi";
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(param),
+        })
+          .then((resp) => resp.json())
+          .then(function (data) {
+            console.log(data);
+          })
+          .catch((error) => console.log("error", error));
+      }
+
+      $(document).ready(function () {
+        $("#search-input").on("keyup", function () {
+          let value = $(this).val().toLowerCase();
+          $("#tabel-peralatan tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

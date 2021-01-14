@@ -1,0 +1,269 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Informasi Penjualan dan Inventaris Multirona</title>
+    <link rel="stylesheet" href="css/w3.css" />
+    <link rel="stylesheet" href="css/sidenav.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="../fonts/fontawesome/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="../bootstrap-4.1.3-dist/css/bootstrap.min.css"
+    />
+    <script>
+      window.jQuery = window.$ = require("jquery");
+    </script>
+    <script src="js/popper.min.js"></script>
+    <script src="../bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        font-family: Hero;
+      }
+      hr {
+        border: 2px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidenav">
+      <div class="sidebar-content">
+        <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+          <div class="user-pic">
+            <i class="fa fa-user w3-xxlarge"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name"><strong>Setiadi</strong></span
+            ><br />
+            <span class="user-role">Owner</span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <h1>Menu</h1>
+      <a href="dashboard.html"
+        ><i class="fa fa-home w3-xlarge"></i> Dashboard</a
+      >
+      <a href="penjualan.html"
+        ><i class="fa fa-shopping-bag w3-xlarge"></i> Penjualan</a
+      >
+      <button class="dropdown-btn">
+        <i class="fas fa-list-ul w3-xlarge"></i>
+        Inventaris
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="inventaris_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Stok Produk</a
+        >
+        <a href="inventaris_masuk.html"
+          ><i class="fas fa-circle w3-small"></i> Tambah Stok</a
+        >
+        <a href="inventaris_edit.html"
+          ><i class="fas fa-circle w3-small"></i> Edit Stok</a
+        >
+        <a class="active" href="peralatan.html"
+          ><i class="fas fa-circle w3-small"></i> Peralatan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Data Produk
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="data_produk_list.html"
+          ><i class="fas fa-circle w3-small"></i> List Produk</a
+        >
+        <a href="data_produk_jenis.html"
+          ><i class="fas fa-circle w3-small"></i> Jenis Produk</a
+        >
+        <a href="data_produk_satuan.html"
+          ><i class="fas fa-circle w3-small"></i> Satuan</a
+        >
+      </div>
+      <button class="dropdown-btn">
+        <i class="fas fa-folder-open w3-xlarge"></i>
+        Laporan
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="laporan_penjualan.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Penjualan</a
+        >
+        <a href="laporan_stok.html"
+          ><i class="fas fa-circle w3-small"></i> Laporan Stok Produk</a
+        >
+      </div>
+      <a href="supplier.html"
+        ><i class="fab fa-dropbox w3-xlarge"></i> Supplier</a
+      >
+      <a href="pelanggan.html"
+        ><i class="fas fa-user w3-xlarge"></i> Pelanggan</a
+      >
+      <a href="pengguna.html" style="bottom: 6%; position: absolute"
+        ><i class="fa fa-user-circle w3-xlarge"></i> Pengguna</a
+      >
+      <a href="login.html" style="bottom: 0; position: absolute"
+        ><i class="fa fa-sign-out-alt w3-xlarge"></i> Keluar</a
+      >
+    </div>
+
+    <div class="main">
+      <div class="container" id="judul">
+        <h2>Inventaris</h2>
+        <hr />
+      </div>
+
+      <div class="container">
+        <h3>Riwayat Update Peralatan</h3>
+
+        <button
+          class="btn btn-success"
+          id="tambahBtn"
+          onclick="window.location='peralatan.html'"
+          style="margin-bottom: 10px"
+        >
+          Kembali
+        </button>
+
+        <label for="tanggal-mulai">Mulai : </label>
+        <input type="date" name="tanggal-mulai" id="tanggal-mulai" />&ensp;
+        <label for="tanggal-sampai">Sampai : </label>
+        <input type="date" name="tanggal-sampai" id="tanggal-sampai" />
+        <button class="btn btn-primary" onclick="setTanggal(false)">
+          Set Tanggal
+        </button>
+
+        <div style="float: right; margin-top: 0px">
+          <input
+            type="text"
+            placeholder="Ketik untuk mencari..."
+            id="search-input"
+          />
+          <!-- <button class="search" style="margin-right: 20px"> -->
+          <i class="fa fa-search"></i>
+          <!-- </button> -->
+        </div>
+
+        <div>
+          <table class="" style="text-align: center">
+            <colgroup>
+              <col span="1" style="width: 5%" />
+              <col span="1" style="width: 20%" />
+              <col span="1" style="width: 20%" />
+              <col span="1" style="width: 20%" />
+              <col span="1" style="width: 20%" />
+              <col span="1" style="width: 15%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Tanggal</th>
+                <th>Nama Barang</th>
+                <th>Catatan</th>
+                <th>Kondisi Awal</th>
+                <th>Kondisi Akhir</th>
+                <th>Oleh</th>
+              </tr>
+            </thead>
+            <tbody id="tabel-riwayat"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/side_nav.js"></script>
+    <script>
+      var arrPeralatan = [];
+      var tglMulai = "",
+        tglSampai = "";
+      // window.onload = getPeralatan();
+      window.onload = setTanggal(true);
+
+      function setTanggal(awal) {
+        if (awal) {
+          let date = new Date();
+          let year = date.getFullYear();
+          let month = "" + (date.getMonth() + 1);
+          let day = "" + date.getDate();
+          if (month.length < 2) month = "0" + month;
+          if (day.length < 2) day = "0" + day;
+          tglMulai = year + "-" + month + "-01";
+          tglSampai = year + "-" + month + "-" + day;
+          $("#tanggal-mulai").val(tglMulai);
+          $("#tanggal-sampai").val(tglSampai);
+        } else {
+          tglMulai = $("#tanggal-mulai").val();
+          tglSampai = $("#tanggal-sampai").val();
+        }
+        getPeralatan();
+      }
+
+      function getPeralatan() {
+        let param = "?tglMulai=" + tglMulai + "&tglSampai=" + tglSampai;
+        let url =
+          "http://multirona.000webhostapp.com/index.php/inventaris/peralatan_riwayat" +
+          param;
+        fetch(url)
+          .then((resp) => resp.json())
+          .then(function (data) {
+            arrPeralatan = data;
+            createTable();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      function createTable() {
+        let tbl = document.createElement("table");
+        let thead = document.createElement("thead");
+        let tbody = document.getElementsByTagName("tbody");
+        $("#tabel-riwayat").empty();
+        for (let i = 0, k = 1; i < arrPeralatan.length; i++, k++) {
+          let tr = document.createElement("tr");
+          let td = document.createElement("td");
+          td.textContent = i + 1;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].tanggal;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].nama;
+          td.className = "list-nama";
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].catatan;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].kondisi_awal;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].kondisi_akhir;
+          tr.appendChild(td);
+
+          td = document.createElement("td");
+          td.textContent = arrPeralatan[i].nama_user;
+          tr.appendChild(td);
+
+          tbody[0].appendChild(tr);
+        }
+      }
+
+      $(document).ready(function () {
+        $("#search-input").on("keyup", function () {
+          let value = $(this).val().toLowerCase();
+          $("#tabel-riwayat tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
