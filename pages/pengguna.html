@@ -81,7 +81,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -123,6 +123,7 @@
           style="float: right; margin-right: 10px; margin-bottom: 10px"
           data-toggle="modal"
           data-target="#modalTambahPengguna"
+          id="tambah-btn"
         >
           Tambah Pengguna
         </button>
@@ -171,17 +172,16 @@
               <div class="row">
                 <label for="jenis">Jenis Pengguna &nbsp;: &emsp;</label>
                 <select name="jenis" id="tambah-jenis"></select>
-                <!-- <input type="text" name="jenis" id="tambah-jenis" /> -->
               </div>
               <br />
               <div class="row">
                 <label for="alamat">Username &emsp;&emsp;&emsp;: &emsp;</label>
-                <input type="text" name="alamat" id="tambah-username" />
+                <input type="text" name="username" id="tambah-username" />
               </div>
               <br />
               <div class="row">
                 <label for="telp">Password &emsp; &emsp;&emsp; : &emsp;</label>
-                <input type="password" name="telp" id="tambah-telp" />
+                <input type="password" name="password" id="tambah-password" />
               </div>
             </div>
 
@@ -310,7 +310,8 @@
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
@@ -323,6 +324,10 @@
       window.onload = getPengguna();
       window.onload = getJenisPengguna();
       window.onload = getAndroidToken();
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+        $("#tambah-btn").css("display","none");
+      }
 
       function getPengguna() {
         let url = baseUrl + "user";
@@ -343,6 +348,7 @@
           .then((resp) => resp.json())
           .then(function (data) {
             arrJenis = data;
+            console.log(data);
             for (let i = 0; i < data.length; i++) {
               let opt = document.createElement("option");
               opt.textContent = data[i].nama;
@@ -414,7 +420,8 @@
             username: $("#tambah-username").val(),
             password: $("#tambah-password").val(),
           };
-          let url = baseUrl + "user";
+          console.log(body);
+          let url = baseUrl + "user/tambah";
           fetch(url, {
             method: "POST",
             headers: {
@@ -553,9 +560,6 @@
         );
 
         var raw = JSON.stringify({
-          // registration_ids: [
-          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
-          // ],
           registration_ids: arrToken,
           notification: {
             title: "Notif Multi Rona",

@@ -19,9 +19,7 @@
     </script>
     <script src="js/popper.min.js"></script>
     <script src="../bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
-    <!-- <link rel="stylesheet" href="css/data_produk_list.css" /> -->
     <style></style>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
   </head>
   <body>
     <div class="sidenav">
@@ -80,7 +78,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -126,13 +124,6 @@
           <i class="fa fa-search"></i>
 
           <div style="float: right; margin-bottom: 20px">
-            <!-- <button
-              class="search"
-              style="margin-right: 20px"
-              onclick="search()"
-            >
-              <i class="fa fa-search"></i>
-            </button> -->
             <button
               class="btn btn-primary"
               id="tambahBtn"
@@ -238,32 +229,6 @@
                 />
               </div>
             </div>
-            <!-- <div class="row">
-              <div class="col">
-                <label for="jumlah-konversi">Jumlah Konversi :</label>
-              </div>
-              <div class="col-8">
-                <input
-                  id="input-jumlah-konversi"
-                  name="jumlah-konversi"
-                  type="number"
-                  disabled
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <label for="jumlah">Jumlah :</label>
-              </div>
-              <div class="col-8">
-                <input
-                  type="number"
-                  id="input-jumlah"
-                  name="jumlah"
-                  placeholder="Jumlah..."
-                />
-              </div>
-            </div> -->
             <div class="row">
               <div class="col">
                 <label for="batas">Batas Re-supply :</label>
@@ -442,34 +407,6 @@
                 />
               </div>
             </div>
-            <!-- <div class="row">
-              <div class="col col-detail">
-                <label for="konversi-detail">Jumlah Konversi &nbsp;: </label>
-              </div>
-              <div class="col-8">
-                <input
-                  type="text"
-                  name="konversi-detail"
-                  id="konversi-detail"
-                  style="height: 100%"
-                  disabled
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col col-detail">
-                <label for="jumlah-detail">Jumlah Produk &emsp; : </label>
-              </div>
-              <div class="col-8">
-                <input
-                  type="text"
-                  name="jumlah-detail"
-                  id="jumlah-detail"
-                  style="height: 100%"
-                  disabled
-                />
-              </div>
-            </div> -->
             <div class="row">
               <div class="col col-detail">
                 <label for="batas-detail">Batas Resupply &emsp;: </label>
@@ -534,7 +471,6 @@
                 <thead>
                   <tr>
                     <th>Satuan Eceran</th>
-                    <!-- <th>Jumlah Eceran</th> -->
                     <th>Harga Eceran</th>
                   </tr>
                 </thead>
@@ -588,6 +524,20 @@
                   id="edit-nama"
                   name="nama"
                   placeholder="Nama Produk..."
+                />
+                <input type="checkbox" class="checklist-edit" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="keterangan">Keterangan :</label>
+              </div>
+              <div class="col-8 col-edit">
+                <input
+                  type="text"
+                  id="edit-keterangan"
+                  name="keterangan"
+                  placeholder="Keterangan..."
                 />
                 <input type="checkbox" class="checklist-edit" />
               </div>
@@ -674,9 +624,6 @@
               <div class="row row-ecerEdit">
                 <div class="col-1"></div>
                 <div class="col">Satuan</div>
-                <!-- <div class="col">
-                  <p>Jumlah</p>
-                </div> -->
                 <div class="col">Harga</div>
                 <div class="col">Aksi</div>
               </div>
@@ -753,7 +700,8 @@
     <script type="text/javascript">
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
@@ -776,16 +724,11 @@
         getSatuan();
         getSupplier();
         getAndroidToken();
-        // tambahProdukDashboard();
+        if (sessionStorage.getItem("jenis_user") != "pemilik") {
+          $("#laporan-nav").css("display","none");
+        }
       });
 
-      function tambahProdukDashboard() {
-        console.log(sessionStorage.getItem("tambah_produk_dashboard"));
-        if (sessionStorage.getItem("tambah_produk_dashboard") == "1") {
-          $("#tambahBtn").click();
-          sessionStorage.setItem("tambah_produk_dashboard", "0");
-        }
-      }
 
       function getProduk() {
         let dropdown = document.getElementsByClassName("dropdown-btn");
@@ -851,7 +794,6 @@
               satuanEdit.appendChild(opt);
             }
             $("#input-konversi-utama").val(arrSatuan[0].konversi_satuan);
-            // $("#input-jumlah-konversi").val(0.0);
           })
           .catch(function (error) {
             console.log(error);
@@ -900,8 +842,6 @@
               $("input[name=ket-detail]").val(data[0].keterangan);
               $("input[name=jenis-detail]").val(data[0].nama_jenis);
               $("input[name=satuan-detail]").val(data[0].nama_satuan);
-              // $("input[name=konversi-detail]").val(data[0].jumlah_konversi);
-              // $("input[name=jumlah-detail]").val(data[0].jumlah_utama);
               $("input[name=batas-detail]").val(data[0].batas_resupply);
               $("input[name=supplier-detail]").val(data[0].nama_supplier);
               $("input[name=hargaBeli-detail]").val(
@@ -921,9 +861,6 @@
                   let td = document.createElement("td");
                   td.textContent = data[0].arrEcer[i].nama_satuan;
                   tr.appendChild(td);
-                  // td = document.createElement("td");
-                  // td.textContent = data[0].arrEcer[i].jumlah_eceran;
-                  // tr.appendChild(td);
                   td = document.createElement("td");
                   td.textContent = rupiahFormat(
                     data[0].arrEcer[i].harga_eceran
@@ -950,6 +887,7 @@
                   supplier.childNodes[i].selected = true;
               }
               $("#edit-nama").val(data[0].nama_produk);
+              $("#edit-keterangan").val(data[0].keterangan);
               $("#edit-jumlah").val(data[0].jumlah_utama);
               $("#edit-batas").val(data[0].batas_resupply);
               $("#edit-hargaBeli").val(data[0].harga_beli);
@@ -1004,7 +942,6 @@
                   btnHapus.textContent = "hapus";
                   btnHapus.onclick = function () {
                     hapusEcerPreview(this);
-                    // hapusEcer(this);
                   };
                   col = document.createElement("div");
                   col.className = "col";
@@ -1021,16 +958,11 @@
       }
 
       function checkInput() {
-        // console.log(document.getElementById("isEceran").checked);
-        // console.log($(".satuan-ecer"));
         if ($("#input-nama").val() == "") {
           dialogs.alert("Nama produk harus diisi.");
         } else if ($("#input-jenis").val() == "") {
           dialogs.alert("Jenis produk harus diisi.");
         }
-        // else if ($("#input-jumlah").val() == "") {
-        //   dialogs.alert("Jumlah produk harus diisi.");
-        // }
         else if ($("#input-batas").val() == "") {
           dialogs.alert("Batas resupply harus diisi.");
         } else if ($("#input-satuan").val() == "") {
@@ -1048,7 +980,6 @@
           for (let i = 0; i < $(".satuan-ecer").length; i++) {
             if (
               document.getElementsByClassName("satuan-ecer")[i].value == "" ||
-              // document.getElementsByClassName("jumlah-ecer")[i].value == "" ||
               document.getElementsByClassName("harga-ecer")[i].value == ""
             )
               dialogs.alert("Input eceran harus diisi dengan lengkap.");
@@ -1127,6 +1058,7 @@
       function insertEdit() {
         let selectedProduk = {};
         let nama = "",
+          keterangan = "",
           jenis = "",
           batas = "",
           satuan = "",
@@ -1152,6 +1084,8 @@
                 parent[i].children[0].value;
               if (parent[i].children[0].name == "nama")
                 nama = parent[i].children[0].value;
+              else if (parent[i].children[0].name == "keterangan")
+                keterangan = parent[i].children[0].value;
               else if (parent[i].children[0].name == "batas")
                 batas = parent[i].children[0].value;
               else if (parent[i].children[0].name == "hargaBeli")
@@ -1233,14 +1167,10 @@
               console.log(data);
               if (data.status == 200) {
                 bool1 = true;
-                // dialogs.alert(data.message, (ok) => {
-                //   window.location = window.location;
-                // });
               }
             })
             .catch(function (error) {
               console.log(error);
-              // dialogs.alert("Gagal mengedit produk.");
               bool1 = false;
             });
           console.log(arrEditEcer);
@@ -1288,11 +1218,6 @@
       }
 
       function hapusProduk() {
-        // dialogs.confirm(
-        //   "Apakah Anda yakin ingin menghapus produk ini?",
-        //   (ok) => {
-        // let x = param.parentNode.parentNode.rowIndex - 1;
-        // let id = arrProduk[x].id;
         let paramId = {
           id: curId,
         };
@@ -1315,8 +1240,6 @@
           .catch(function (error) {
             console.log(error);
           });
-        //   }
-        // );
       }
 
       function hapusEcerPreview(param) {
@@ -1328,33 +1251,15 @@
         let rows = document.getElementsByClassName("row-ecerEdit");
         rows[idx].style.display = "none";
         arrEditEcer.push(curEcer[idx - 1].id);
-        // dialogs.confirm(
-        //   "Apakah anda yakin ingin menghapus eceran ini?",
-        //   (ok) => {
-        //   }
-        // );
       }
 
       function hapusEcer(param) {
-        // let arrElement = Array.prototype.slice.call(
-        //   document.getElementsByClassName("btn-hapusEcer"),
-        //   0
-        // );
-        // let idx = arrElement.indexOf(event.currentTarget);
-        // console.log(curEcer.length);
-        // if (curEcer.length == 1 && $("#edit-hargaJual").val() == "") {
-        //   dialogs.alert(
-        //     "Input harga jual harus diisi jika produk tidak punya satuan eceran."
-        //   );
-        // } else {
         let id = {
-          // id: curEcer[idx].id,
           arrId: arrEditEcer,
           id_produk: curId,
           ecer_length: curEcer.length,
           harga_jual: $("#edit-hargaJual").val(),
         };
-        // if (curEcer.length == 1) id.harga_jual = $("#edit-hargaJual").val();
         console.log(id);
         // let url =
         //   "http://multirona.000webhostapp.com/index.php/produk/hapusEcer";
@@ -1368,18 +1273,13 @@
         })
           .then((resp) => resp.json())
           .then(function (data) {
-            // refreshPage();
-            // dialogs.alert(data.message);
             return true;
           })
           .catch(function (error) {
             console.log(error);
-            // dialogs.alert("Gagal menghapus eceran.");
             return false;
           });
-        // }
         return true;
-        // }
       }
 
       function refreshPage() {
@@ -1389,8 +1289,6 @@
       // CLEAR INPUT DI MODAL TAMBAH PRODUK
       function clearInput(param) {
         document.getElementById(param + "-nama").value = "";
-        // if (param == "input")
-        //   document.getElementById(param + "-jumlah").value = "";
         document.getElementById(param + "-batas").value = "";
         document.getElementById(param + "-hargaBeli").value = "";
         document.getElementById(param + "-hargaJual").value = "";
@@ -1532,13 +1430,6 @@
         }
         col.appendChild(select);
         row.appendChild(col);
-        // input = document.createElement("input");
-        // input.className = "editTambah-jumlahEcer";
-        // input.placeholder = "Jumlah...";
-        // col = document.createElement("div");
-        // col.className = "col";
-        // col.appendChild(input);
-        // row.appendChild(col);
         input = document.createElement("input");
         input.className = "editTambah-hargaEcer";
         input.placeholder = "Harga...";
@@ -1652,9 +1543,6 @@
         );
 
         var raw = JSON.stringify({
-          // registration_ids: [
-          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
-          // ],
           registration_ids: arrToken,
           notification: {
             title: "Notif Multi Rona",

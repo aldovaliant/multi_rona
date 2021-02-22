@@ -82,7 +82,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -132,9 +132,7 @@
               placeholder="Ketik untuk mencari..."
               id="search-input"
             />
-            <!-- <button class="search" style="margin-right: 20px"> -->
             <i class="fa fa-search"></i>&emsp;
-            <!-- </button> -->
             <button
               class="btn btn-primary"
               id="tambahBtn"
@@ -337,7 +335,8 @@
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
@@ -349,10 +348,12 @@
         keperluan: false,
         catatan: false,
       };
-      // var alatEdit = {};
       var arrToken = [];
       window.onload = getPeralatan();
       window.onload = getAndroidToken();
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+      }
 
       function getPeralatan() {
         // let url =
@@ -373,9 +374,6 @@
         let tbody = document.getElementsByTagName("tbody");
 
         for (let i = 0, k = 1; i < arrPeralatan.length; i++, k++) {
-          // let btnDetail = document.createElement("button");
-          // btnDetail.appendChild(document.createTextNode("detail"));
-          // btnDetail.className = "btn btn-outline-secondary btn-aksi";
           let btnEdit = document.createElement("button");
           btnEdit.appendChild(document.createTextNode("update"));
           btnEdit.className = "btn btn-primary btn-aksi btn-edit";
@@ -437,36 +435,19 @@
         $("#edit-keperluan").val(arrPeralatan[x].keperluan);
         $("#edit-kondisi").val(arrPeralatan[x].kondisi);
       }
-      // $("#edit-nama").keyup(function () {
-      //   // curEdit.nama = $("#edit-nama").val();
-      //   curEdit.nama = true;
-      // });
-      // $("#edit-keperluan").keyup(function () {
-      //   // curEdit.keperluan = $("#edit-keperluan").val();
-      //   curEdit.keperluan = true;
-      // });
       $("#edit-kondisi").keyup(function () {
-        // curEdit.kondisi = $("#edit-kondisi").val();
         curEdit.kondisi = true;
       });
       $("#edit-catatan").keyup(function () {
-        // curEdit.catatan = $("#edit-catatan").val();
         curEdit.catatan = true;
       });
       function insertEdit() {
-        // if (curEdit.nama) param.nama = $("#edit-nama").val();
-        // if (curEdit.keperluan) param.keperluan = $("#edit-keperluan").val();
-        // if (curEdit.kondisi) param.kondisi = $("#edit-kondisi").val();
-        // let objLength = Object.keys(param).length;
-        // console.log(param.kondisi);
-
         if (curEdit.catatan == false) {
           dialogs.alert("Catatan harus diisi.");
         } else if (curEdit.kondisi == false) {
           dialogs.alert("Kondisi harus berubah.");
         } else {
           let dataUpdate = {};
-          // alatEdit.nama = $("#edit-nama").val();
           dataUpdate.fk_peralatan = curEdit.id;
           dataUpdate.kondisi_awal = curEdit.kondisiAwal;
           dataUpdate.kondisi_akhir = $("#edit-kondisi").val();
@@ -494,7 +475,6 @@
               console.log(error);
             });
         }
-        // curEdit = {};
       }
 
       function previewHapus(param) {
@@ -634,9 +614,6 @@
         );
 
         var raw = JSON.stringify({
-          // registration_ids: [
-          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
-          // ],
           registration_ids: arrToken,
           notification: {
             title: "Notif Multi Rona",

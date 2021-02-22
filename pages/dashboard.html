@@ -90,7 +90,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -147,7 +147,10 @@
         <div class="main-button w3-col s4 w3-center">
           <div class="inner-main w3-blue">
             <i class="fa fa-folder-open w3-xxxlarge"></i>
-            <button class="w3-right" onclick="window.location = 'data_produk_list.html'">
+            <button
+              class="w3-right"
+              onclick="window.location = 'data_produk_list.html'"
+            >
               <i class="fa fa-plus-circle w3-xxlarge"></i>Produk Baru
             </button>
           </div>
@@ -192,26 +195,7 @@
                   <th>Tanggal</th>
                   <th>Notifikasi</th>
                 </thead>
-                <tbody id="tbody-notifikasi">
-                  <!-- <tr>
-                    <td>- Terakhir login : 22/02/2020 16:00</td>
-                  </tr>
-                  <tr>
-                    <td>- Stok tiner sudah diperbarui</td>
-                  </tr>
-                  <tr>
-                    <td>- Stok soda api sudah habis</td>
-                  </tr>
-                  <tr>
-                    <td>- Terakhir login : 22/02/2020 16:00</td>
-                  </tr>
-                  <tr>
-                    <td>- Stok tiner sudah diperbarui</td>
-                  </tr>
-                  <tr>
-                    <td>- Stok soda api sudah habis</td>
-                  </tr> -->
-                </tbody>
+                <tbody id="tbody-notifikasi"></tbody>
               </table>
             </div>
             <hr />
@@ -226,7 +210,6 @@
                     <col span="1" style="width: 40%" />
                   </colgroup>
                   <tr>
-                    <!-- <th>No</th> -->
                     <th>No.Transaksi</th>
                     <th>Pelanggan</th>
                     <th>Subtotal</th>
@@ -273,26 +256,7 @@
                   <th>Detail</th>
                 </tr>
               </thead>
-              <tbody id="tbody-reminder" style="text-align: left">
-                <!-- <tr>
-                  <td>(15/05/20)</td>
-                  <td>Beli karet rakel di supplier X</td>
-                  <td><button class="btn btn-secondary">detail</button></td>
-                </tr>
-                <tr>
-                  <td>(16/05/20)</td>
-                  <td>Siapin pesanan Multi Garmen</td>
-                  <td><button class="btn btn-secondary">detail</button></td>
-                </tr>
-                <tr>
-                  <td>(20/05/20)</td>
-                  <td>
-                    Siapin pesanan 50 busa, 10 lem meja, 20 screen untuk
-                    customer Y
-                  </td>
-                  <td><button class="btn btn-secondary">detail</button></td>
-                </tr> -->
-              </tbody>
+              <tbody id="tbody-reminder" style="text-align: left"></tbody>
             </table>
           </div>
         </div>
@@ -367,7 +331,8 @@
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
@@ -379,6 +344,9 @@
       window.onload = createReminder();
       window.onload = getPenjualan();
       window.onload = getNotifikasi();
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+      }
 
       function getProdukHabis() {
         // let url =
@@ -479,9 +447,6 @@
           for (let i = 0, k = 1; i < arrHabis.length; i++, k++) {
             let tr = document.createElement("tr");
             tr.className = "danger";
-            // if(parseInt(arrHabis[i].jumlah_utama) <= parseInt(arrHabis[i].batas_resupply)){
-            //   tr.className = "danger";
-            // } else{}
             let td = document.createElement("td");
             td.textContent = i + 1;
             tr.appendChild(td);
@@ -501,7 +466,6 @@
 
             tbody[0].appendChild(tr);
           }
-          // $("#tabel-produkHabis").css("display", "block");
           $("#text-produk").css("display", "none");
         } else {
           $("#tabel-produkHabis").css("display", "none");
@@ -528,24 +492,16 @@
                 td.textContent = data[i].catatan;
                 tr.appendChild(td);
                 td = document.createElement("td");
-                // let btnDetail = document.createElement("button");
-                // btnDetail.textContent = "detail";
-                // btnDetail.className = "btn btn-secondary btn-detail";
-                // btnDetail.onclick = function () {
-                //   previewDetail(this);
-                // };
                 let btnSelesai = document.createElement("button");
                 btnSelesai.textContent = "selesai";
                 btnSelesai.className = "btn btn-primary btn-selesai";
                 btnSelesai.onclick = function () {
                   setReminderSelesai(this);
                 };
-                // td.appendChild(btnDetail);
                 td.appendChild(btnSelesai);
                 tr.appendChild(td);
                 reminder.appendChild(tr);
               }
-              // $("#tabel-reminder").css("display", "block");
               $("#text-reminder").css("display", "none");
             } else {
               $("#tabel-reminder").css("display", "none");
@@ -559,22 +515,6 @@
         $(".btn-detail").attr("data-toggle", "modal");
         $(".btn-detail").attr("data-target", "#modalDetailReminder");
       }
-
-      // function previewDetail(param) {
-      //   let x = param.parentNode.parentNode.rowIndex - 1;
-      //   let id = arrReminder[x].id;
-      //   let url =
-      //     "http://multirona.000webhostapp.com/index.php/dashboard/reminder";
-      //   fetch(url)
-      //     .then((resp) => resp.json())
-      //     .then(function (data) {
-      //       if (data.length > 0) {
-      //       }
-      //     })
-      //     .catch(function (error) {
-      //       console.log(error);
-      //     });
-      // }
 
       function setReminderSelesai(param) {
         let x = param.parentNode.parentNode.rowIndex - 1;
@@ -649,7 +589,6 @@
         let month = str.substring(5, 7);
         let day = str.substring(8, 10);
         return year + "-" + month + "-" + day;
-        // console.log(year + "-" + month + "-" + day);
       }
 
       /* Fungsi formatRupiah */

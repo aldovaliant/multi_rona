@@ -81,7 +81,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -121,6 +121,7 @@
           style="float: right; margin-right: 10px; margin-bottom: 10px"
           data-toggle="modal"
           data-target="#modalTambahSatuan"
+          id="tambah-btn"
         >
           Tambah Satuan
         </button>
@@ -279,7 +280,8 @@
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
@@ -289,6 +291,10 @@
       var arrToken = [];
       window.onload = getJenis();
       window.onload = getAndroidToken();
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+        $("#tambah-btn").css("display","none");
+      }
 
       function getJenis() {
         let dropdown = document.getElementsByClassName("dropdown-btn");
@@ -337,8 +343,10 @@
           td.textContent = arrSatuan[i].keterangan;
           tr.appendChild(td);
           td = document.createElement("td");
-          td.appendChild(btnEdit);
-          td.appendChild(btnHapus);
+          if (sessionStorage.getItem("jenis_user") == "pemilik") {
+            td.appendChild(btnEdit);
+            td.appendChild(btnHapus);
+          }
           tr.appendChild(td);
 
           tbody[0].appendChild(tr);
@@ -369,37 +377,6 @@
         ) {
           dialogs.alert("Input harus diisi dengan lengkap.");
         }
-        // else {
-        //   let body = {
-        //     id: curId,
-        //     nama: $("#" + param + "-nama").val(),
-        //     keterangan: $("#" + param + "-keterangan").val(),
-        //   };
-        //   let url =
-        //     "http://multirona.000webhostapp.com/index.php/produk/" +
-        //     param +
-        //     "_satuan";
-        //   fetch(url, {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-type": "application/json",
-        //     },
-        //     body: JSON.stringify(body),
-        //   })
-        //     .then((resp) => resp.json())
-        //     .then(function (data) {
-        //       console.log(data);
-        //       if (data.status == 200) {
-        //         dialogs.alert(data.message, (ok) => {
-        //           window.location = window.location;
-        //         });
-        //       }
-        //     })
-        //     .catch(function (error) {
-        //       console.log(error);
-        //     });
-        //   curId = null;
-        // }
       }
 
       function insertSatuan() {
@@ -503,12 +480,6 @@
         $("#hapus-text").text(
           "Apakah Anda yakin ingin menghapus jenis " + nama + "?"
         );
-        // dialogs.confirm(
-        //   "Apakah Anda yakin ingin menghapus jenis " + nama + "?",
-        //   (ok) => {
-        //     hapusJenis(id);
-        //   }
-        // );
       }
 
       function hapusSatuan() {
@@ -518,8 +489,7 @@
         console.log(curId);
         // let url =
         //   "http://multirona.000webhostapp.com/index.php/produk/hapus_satuan";
-        let url =
-          baseUrl + "produk/hapus_satuan";
+        let url = baseUrl + "produk/hapus_satuan";
         fetch(url, {
           method: "POST",
           headers: {
@@ -565,9 +535,6 @@
         );
 
         var raw = JSON.stringify({
-          // registration_ids: [
-          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
-          // ],
           registration_ids: arrToken,
           notification: {
             title: "Notif Multi Rona",

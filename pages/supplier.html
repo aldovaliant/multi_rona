@@ -81,7 +81,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -99,6 +99,9 @@
       >
       <a href="pelanggan.html"
         ><i class="fas fa-user w3-xlarge"></i> Pelanggan</a
+      >
+      <a href="pengguna.html" style="bottom: 6%; position: absolute"
+        ><i class="fa fa-user-circle w3-xlarge"></i> Pengguna</a
       >
       <a href="login.html" style="bottom: 0; position: absolute"
         ><i class="fa fa-sign-out-alt w3-xlarge"></i> Keluar</a
@@ -319,6 +322,9 @@
       var arrToken = [];
       window.onload = getSupplier();
       window.onload = getAndroidToken();
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+      }
 
       function getSupplier() {
         // let url = "http://multirona.000webhostapp.com/index.php/supplier";
@@ -473,10 +479,6 @@
           console.log(curEdit);
           let body = {
             id: curId,
-            // nama: $("#edit-nama").val(),
-            // keterangan: $("#edit-keterangan").val(),
-            // alamat: $("#edit-alamat").val(),
-            // telp: $("#edit-telp").val(),
           };
           // let url =
           //   "http://multirona.000webhostapp.com/index.php/supplier/edit";
@@ -564,9 +566,6 @@
         );
 
         var raw = JSON.stringify({
-          // registration_ids: [
-          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
-          // ],
           registration_ids: arrToken,
           notification: {
             title: "Notif Multi Rona",

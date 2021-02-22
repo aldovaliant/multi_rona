@@ -93,7 +93,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -128,10 +128,9 @@
 
       <div class="container penjualan">
         <h3>Form Transaksi</h3>
-        <!-- <h6 id="no-transaksi">No. Transaksi :</h6> -->
         <label for="no-transaksi"><h6>No. Transaksi :</h6></label>
         <input type="number" name="no-transaksi" id="no-transaksi" disabled />
-        <h6>Tanggal : 20/04/2020</h6>
+        <h6 id="tanggal-transaksi"></h6>
         <label for="pelanggan"><h6>Nama Pelanggan :</h6></label>
         <select name="pelanggan" id="pelanggan"></select>
         <!-- <form> -->
@@ -140,9 +139,6 @@
           <label for="produk">Nama Produk &emsp; :&nbsp;</label>
           <select name="produk" id="produk"></select
           ><br />
-
-          <!-- <label for="id-produk">Id Produk &emsp;&emsp;&ensp;&ensp; : </label>
-          <input type="text" name="id-produk" id="id-produk" value="" disabled /><br /> -->
 
           <label for="satuan">Pilih Satuan &emsp;&ensp;&nbsp; :&nbsp; </label>
           <select name="satuan" id="satuan"></select
@@ -186,13 +182,6 @@
           <br />
           <label for="total">Total&emsp;&emsp;&emsp;&emsp;&emsp;&ensp; :</label>
           <input type="text" name="" id="total" value="" disabled /><br />
-          <!-- <button
-            id="diskon"
-            class="btn btn-secondary"
-            style="margin-left: 5px; margin-bottom: 5px"
-          >
-            Ubah Harga</button
-          ><br /> -->
 
           <button
             class="btn btn-primary"
@@ -209,7 +198,6 @@
             Tambah
           </button>
         </div>
-        <!-- </form> -->
 
         <div class="list-transaksi">
           <br />
@@ -217,7 +205,6 @@
           <table id="list-table">
             <colgroup>
               <col span="1" style="width: 5%" />
-              <!-- <col span="1" style="width: 10%" /> -->
               <col span="1" style="width: 20%" />
               <col span="1" style="width: 15%" />
               <col span="1" style="width: 15%" />
@@ -229,7 +216,6 @@
             <thead>
               <tr>
                 <th>No</th>
-                <!-- <th>Id Produk</th> -->
                 <th>Nama Produk</th>
                 <th>Satuan</th>
                 <th>Harga Satuan</th>
@@ -266,8 +252,6 @@
             value=""
             style="text-align: right"
           /><br />
-          <!-- <p id="terbilang-output" style="font-size: medium;text-align: right;"></p> -->
-          <!-- <button class="btn btn-primary">PRINT</button> -->
           <button
             type="button"
             class="btn btn-primary"
@@ -314,9 +298,6 @@
     </div>
 
     <script src="js/side_nav.js"></script>
-    <!-- <script src="js/jquery-1.11.2.min.js"></script>
-    <script src="js/jquery.mask.min.js"></script>
-    <script src="js/terbilang.js"></script> -->
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
@@ -324,7 +305,8 @@
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // else baseUrl = "http://localhost/multi_rona/";
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       var arrPelanggan = [];
       var arrProduk = [];
       var arrSatuan = [];
@@ -338,12 +320,22 @@
       var arrToken = [];
       window.onload = getAllData();
       window.onload = getAndroidToken();
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+      }
 
       // FUNGSI YANG DIJALANKAN KETIKA HALAMAN DIBUKA
       function getAllData() {
         getNoTransaksi();
         getPelanggan();
         getProduk();
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = "" + (date.getMonth() + 1);
+        let day = "" + date.getDate();
+        $("#tanggal-transaksi").text(
+          "Tanggal : " + day + "/" + month + "/" + year
+        );
       }
 
       // FUNGSI MENDAPATKAN NO TRANSAKSI TERBARU
@@ -416,7 +408,6 @@
         document.getElementById("jumlah").value = "";
         document.getElementById("total").value = "";
         idxProduk = document.getElementById("produk").selectedIndex;
-        // document.getElementById("id-produk").value = arrProduk[idxProduk].id;
         getSatuan(arrProduk[idxProduk].id);
       };
 
@@ -453,18 +444,6 @@
           });
       }
 
-      // FUNGSI KETIKA HARGA BERUBAH
-      document.getElementById("harga").onchange = function () {
-        total();
-      };
-      function total() {
-        let jml = document.getElementById("jumlah").value;
-        let harga = document.getElementById("harga").value;
-        let total = jml * harga;
-        document.getElementById("total").value = total;
-        totalAsal = total;
-      }
-
       // FUNGSI KETIKA INPUT SATUAN BERUBAH
       document.getElementById("satuan").oninput = function () {
         let idx = document.getElementById("satuan").selectedIndex;
@@ -482,13 +461,18 @@
 
       // FUNGSI KETIKA INPUT JUMLAH BERUBAH
       document.getElementById("jumlah").oninput = function () {
-        // total();
         let jml = document.getElementById("jumlah").value;
         let harga = setTotal(jml);
         document.getElementById("total").value = harga;
         totalAsal = harga;
         document.getElementById("diskon-checkbox").checked = false;
       };
+      function setTotal(jumlah) {
+        let harga = document.getElementById("harga").value;
+        let hargaInt = parseInt(harga.replace(/[.]/g, ""));
+        let total = hargaInt * jumlah;
+        return rupiahFormat(total);
+      }
 
       // FUNGSI KETIKA CHECKLIST DISKON
       document.getElementById("diskon-checkbox").onchange = function () {
@@ -508,14 +492,6 @@
           document.getElementById("diskon").disabled = true;
         }
       };
-
-      // FUNGSI HITUNG TOTAL KETIKA JUMLAH BERUBAH
-      function setTotal(jumlah) {
-        let harga = document.getElementById("harga").value;
-        let hargaInt = parseInt(harga.replace(/[.]/g, ""));
-        let total = hargaInt * jumlah;
-        return rupiahFormat(total);
-      }
 
       // FUNGSI UNTUK DISKON
       var diskon = document.getElementById("diskon");
@@ -549,6 +525,18 @@
             document.getElementById("total").value = rupiahFormat(total);
           }
         }
+      }
+
+      // FUNGSI KETIKA HARGA BERUBAH
+      document.getElementById("harga").onchange = function () {
+        total();
+      };
+      function total() {
+        let jml = document.getElementById("jumlah").value;
+        let harga = document.getElementById("harga").value;
+        let total = jml * harga;
+        document.getElementById("total").value = total;
+        totalAsal = total;
       }
 
       // FUNGSI BUTTON TAMBAH
@@ -679,10 +667,12 @@
         .getElementById("selesai")
         .addEventListener("click", insertPenjualan);
       function insertPenjualan() {
-        let grandTotal = document
-          .getElementById("grand-total")
-          .value.replace(/[.]/g, "");
-        let bayar = document.getElementById("bayar").value.replace(/[.]/g, "");
+        let grandTotal = parseInt(
+          document.getElementById("grand-total").value.replace(/[.]/g, "")
+        );
+        let bayar = parseInt(
+          document.getElementById("bayar").value.replace(/[.]/g, "")
+        );
         console.log(grandTotal);
         console.log(bayar);
         if (document.getElementById("list-table").rows.length <= 1) {
@@ -693,12 +683,10 @@
           );
         } else {
           let param = {
-            // no_transaksi: document.getElementById("no-transaksi").value,
             fk_pelanggan: document.getElementById("pelanggan").value,
             total_penjualan: grandTotal,
             total_pembayaran: bayar,
           };
-          // console.log(param);
           // let url = "http://multirona.000webhostapp.com/index.php/penjualan";
           let url = baseUrl + "penjualan";
           fetch(url, {
@@ -726,8 +714,6 @@
         }
       }
       function insertDetail(id_header, kembalian) {
-        // let tr = document.getElementsByClassName("detail-row");
-        // console.log(tr);
         if (arrDetail.length > 0) {
           for (let i = 0; i < arrDetail.length; i++) {
             // let url =
@@ -798,9 +784,6 @@
         );
 
         var raw = JSON.stringify({
-          // registration_ids: [
-          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
-          // ],
           registration_ids: arrToken,
           notification: {
             title: "Notif Multi Rona",
@@ -848,7 +831,6 @@
         .addEventListener("click", clearInput);
       function clearInput() {
         document.getElementById("produk").value = "";
-        // document.getElementById("id-produk").value = "";
         document.getElementById("satuan").value = "";
         document.getElementById("stok").value = "";
         document.getElementById("harga").value = "";
@@ -868,7 +850,7 @@
 
       function myDeleteRow(r) {
         idxPenjualan--;
-        let idx = r.parentNode.rowIndex;
+        let idx = r.parentNode.parentNode.rowIndex;
         console.log("rowindex:" + idx);
         let tr = document.getElementsByClassName("detail-row");
         console.log("tr:" + tr.length);

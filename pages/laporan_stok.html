@@ -145,10 +145,6 @@
           Set Tanggal
         </button>
 
-        <!-- <button class="btn btn-primary" onclick="exportExcel()">
-          Export to Excel
-        </button> -->
-
         <div style="float: right; margin-bottom: 20px">
           <input
             type="text"
@@ -157,9 +153,7 @@
             name="search"
             style="width: 200px"
           />
-          <!-- <button class="search" style="margin-right: 20px"> -->
           <i class="fa fa-search"></i>
-          <!-- </button> -->
         </div>
 
         <div>
@@ -172,7 +166,6 @@
                 <th>Keterangan</th>
                 <th>Jumlah</th>
                 <th>Satuan</th>
-                <!-- <th>Supplier</th> -->
                 <th>Oleh</th>
               </tr>
             </thead>
@@ -184,14 +177,15 @@
 
     <script src="js/side_nav.js"></script>
     <script type="text/javascript">
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // else baseUrl = "http://localhost/multi_rona/";
       var arrRiwayat = [];
-      // window.onload = getRiwayat();
       window.onload = setTanggal(true);
+      window.onload = getRiwayat();
 
       function setTanggal(awal) {
         if (awal) {
@@ -208,13 +202,14 @@
         } else {
           tglMulai = $("#tanggal-mulai").val();
           tglSampai = $("#tanggal-sampai").val();
+          getRiwayat();
         }
-        getRiwayat();
       }
 
       function getRiwayat() {
         // let url = "http://multirona.000webhostapp.com/index.php/riwayat";
-        let url = baseUrl + "riwayat";
+        let url =
+          baseUrl + "laporan/stok?tglMulai=" + tglMulai + "&tglSampai=" + tglSampai;
         fetch(url)
           .then((resp) => resp.json())
           .then(function (data) {
@@ -228,6 +223,7 @@
 
       function createTable() {
         let tbody = document.getElementsByTagName("tbody");
+        $("#laporan-stok > tbody").empty();
         for (let i = 0; i < arrRiwayat.length; i++) {
           let tr = document.createElement("tr");
 
@@ -255,17 +251,12 @@
           td.textContent = arrRiwayat[i].nama_satuan;
           tr.appendChild(td);
 
-          // td = document.createElement("td");
-          // td.textContent = arrRiwayat[i].nama_supplier;
-          // tr.appendChild(td);
-
           td = document.createElement("td");
           td.textContent = arrRiwayat[i].nama_user;
           tr.appendChild(td);
 
           tbody[0].appendChild(tr);
         }
-        // exportExcel();
         resetExport();
       }
 
@@ -277,11 +268,6 @@
           });
         });
       });
-
-      // function exportExcel() {
-      //   var exportTable = require("tableexport");
-      //   $("table").tableExport();
-      // }
 
       var Table = document.getElementById("laporan-stok");
       var exportTable = require("tableexport");

@@ -145,14 +145,6 @@
           </button>
         </h3>
 
-        <!-- Tampilkan
-        <select name="kode" id="">
-          <option value="5">5</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-        </select>
-        Barang -->
-
         <div>
           <label for="tanggal-mulai">Mulai : </label>
           <input
@@ -214,6 +206,7 @@
             </thead>
             <tbody id="tbody-penjualan"></tbody>
           </table>
+          <h5 style="float: right;" id="kalkulasi">Total Kalkulasi : </h5>
         </div>
       </div>
 
@@ -253,7 +246,6 @@
                 <tbody id="table-detail" class="table-detail"></tbody>
               </table>
               <div style="padding-top: 5%; float: right">
-                <!-- <p id="detail-diskon">Diskon :</p> -->
                 <p id="detail-subtotal" style="float: right">Subtotal :</p>
                 <br />
                 <p id="detail-bayar" style="float: right">Uang Bayar :</p>
@@ -314,7 +306,8 @@
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
@@ -326,7 +319,6 @@
         tglSampai = "";
       window.onload = setTanggal(true);
       window.onload = getPenjualan(0);
-      // window.onload = exportExcel();
 
       function setTanggal(awal) {
         if (awal) {
@@ -371,6 +363,7 @@
       }
 
       function createTable(param) {
+        let kalkulasi = 0;
         let tbody = document.getElementsByTagName("tbody");
         $("#laporan-penjualan > tbody").empty();
         for (let i = 0, k = 1; i < arrPenjualan.length; i++, k++) {
@@ -380,12 +373,6 @@
           btnDetail.onclick = function () {
             getDetail(this);
           };
-          // let btnHapus = document.createElement("button");
-          // btnHapus.appendChild(document.createTextNode("hapus"));
-          // btnHapus.className = "btn btn-danger btn-aksi btn-hapus";
-          // btnHapus.onclick = function () {
-          //   previewHapus(this);
-          // };
 
           let tr = document.createElement("tr");
           let td = document.createElement("td");
@@ -403,10 +390,10 @@
           td = document.createElement("td");
           td.className = "rupiah";
           td.textContent = rupiahFormat(arrPenjualan[i].total_penjualan);
+          kalkulasi += parseInt(arrPenjualan[i].total_penjualan);
           tr.appendChild(td);
           td = document.createElement("td");
           td.appendChild(btnDetail);
-          // td.appendChild(btnHapus);
           tr.appendChild(td);
 
           tbody[0].appendChild(tr);
@@ -414,20 +401,17 @@
         }
         $(".btn-detail").attr("data-toggle", "modal");
         $(".btn-detail").attr("data-target", "#modalDetailPenjualan");
-        // $(".btn-hapus").attr("data-toggle", "modal");
-        // $(".btn-hapus").attr("data-target", "#modalHapusPenjualan");
         $(".rupiah").css("text-align", "right");
-        // if(param == 0) exportExcel();
+        $("#kalkulasi").text('Total Kalkulasi : ' + rupiahFormat(kalkulasi));
         resetExport();
       }
-
+      
       $("#modalDetailPenjualan").on("hidden.bs.modal", function (e) {
         clearInput("detail");
       });
 
       function getDetail(param) {
         let x = param.parentNode.parentNode.rowIndex - 1;
-        // console.log(param.parentNode.parentNode.childNodes[4].innerHTML);
         let id = arrPenjualan[x].no_transaksi;
         // let url =
         //   "http://multirona.000webhostapp.com/index.php/laporan/penjualan_detail?id=" +
@@ -436,7 +420,6 @@
         fetch(url)
           .then((resp) => resp.json())
           .then(function (data) {
-            // $(".tableexport-caption").css("display", "none");
             let tbody = document.getElementById("table-detail");
             let diskon = 0;
             for (let i = 0; i < data.length; i++) {
@@ -463,12 +446,8 @@
               tr.appendChild(td);
 
               tbody.appendChild(tr);
-
-              // diskon += parseInt(data[i].diskon);
             }
             let subtotal = param.parentNode.parentNode.childNodes[4].innerHTML;
-            // document.getElementById("detail-diskon").innerHTML =
-            //   "Diskon : " + rupiahFormat(diskon);
             document.getElementById("detail-subtotal").innerHTML =
               "Subtotal : " + subtotal;
             document.getElementById("detail-bayar").innerHTML =
@@ -505,7 +484,6 @@
         let tr = tbody.children();
         console.log(arrPenjualan);
         for (let i = 0; i < arrPenjualan.length; i++) {
-          // let td = tr[i].childNodes;
           let td = arrPenjualan[i];
           if (
             searchInput == arrPenjualan[i].no_transaksi ||
@@ -515,19 +493,10 @@
           ) {
             rowsResult.push(rowsPenjualan[i]);
           }
-          // for (let j = 0; j < td.length; j++) {
-          //   // console.log(j + ":" + td[j].textContent);
-          //   if (searchInput == td[j].textContent) {
-          //     rowsResult.push(tr[i]);
-          //     console.log("masuk");
-          //   }
-          // }
         }
-        // console.log(rowsResult);
         tbody.empty();
         for (let k = 0; k < rowsResult.length; k++) {
           tbody.append(rowsResult[k]);
-          // console.log(rowsResult[k].childNodes);
         }
       }
 

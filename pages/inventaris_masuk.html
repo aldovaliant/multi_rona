@@ -96,7 +96,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -242,28 +242,17 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <!-- <h5>Satuan Utama</h5> -->
             <div class="row">
               <div class="col">
                 <p>Nama Produk &emsp;&emsp;:</p>
-                <!-- <p>Jumlah Tambah &nbsp;:</p> -->
-                <!-- <p>Konversi Awal&emsp;&ensp; :</p>
-                <p>Konversi Akhir &emsp;&ensp;:</p> -->
               </div>
               <div class="col-8">
                 <p class="preview"></p>
-                <!-- <input class="input-preview" disabled /> -->
-                <!-- <input class="input-preview" disabled />
-                <input class="input-preview" disabled /> -->
               </div>
             </div>
-            <!-- <h5 id="ecer-judul" style="display: none">Satuan Eceran</h5> -->
             <table id="preview-tbl" style="display: none">
               <thead>
                 <tr>
-                  <!-- <th>Satuan Eceran</th>
-                  <th>Jumlah Tambah</th>
-                  <th>Jumlah Konversi</th> -->
                   <th>Jenis Stok</th>
                   <th>Satuan</th>
                   <th>Jumlah Stok</th>
@@ -334,7 +323,8 @@
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       var arrProduk = [];
       var arrEcer = [];
       var arrSupplier = [];
@@ -356,6 +346,9 @@
       dropdown[0].addEventListener("click", function () {
         this.classList.toggle("active");
       });
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+      }
 
       function getProduk() {
         let url = baseUrl + "inventaris/pilih_produk";

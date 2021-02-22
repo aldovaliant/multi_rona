@@ -141,9 +141,7 @@
             placeholder="Ketik untuk mencari..."
             id="search-input"
           />
-          <!-- <button class="search" style="margin-right: 20px"> -->
           <i class="fa fa-search"></i>
-          <!-- </button> -->
         </div>
 
         <div>
@@ -175,10 +173,10 @@
 
     <script src="js/side_nav.js"></script>
     <script>
+      var baseUrl = sessionStorage.getItem("baseUrl");
       var arrPeralatan = [];
       var tglMulai = "",
         tglSampai = "";
-      // window.onload = getPeralatan();
       window.onload = setTanggal(true);
 
       function setTanggal(awal) {
@@ -202,9 +200,7 @@
 
       function getPeralatan() {
         let param = "?tglMulai=" + tglMulai + "&tglSampai=" + tglSampai;
-        let url =
-          "http://multirona.000webhostapp.com/index.php/inventaris/peralatan_riwayat" +
-          param;
+        let url = baseUrl + "inventaris/peralatan_riwayat" + param;
         fetch(url)
           .then((resp) => resp.json())
           .then(function (data) {

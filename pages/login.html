@@ -11,11 +11,10 @@
     <title>Sistem Informasi Penjualan dan Inventaris Multirona</title>
   </head>
   <body>
-    <!-- <img src="img/multirona.PNG" alt="multirona" /> -->
     <div class="background">
       <img src="img/multirona.PNG" alt="multirona" />
       <div class="login w3-display-middle w3-center">
-        <h1>Multi Rona</h1>
+        <h1>Multirona</h1>
         <h4>Login</h4>
         <br />
         <label for="username">Username :</label>
@@ -29,11 +28,8 @@
           placeholder=""
         /><br />
         <input type="checkbox" onclick="myFunction()" /> Show Password
-        <!-- <br /><br /> -->
         <strong><p id="message" style="color: red"></p></strong>
-        <!-- <br /> -->
         <a onclick="checkInput()">
-          <!-- <input type="submit" value="LOGIN" class="w3-button w3-gray" /> -->
           <button class="btn btn-primary">LOGIN</button> </a
         ><br />
         <!-- <button id="btnSetDB" onclick="setLocal(this)">Set Local DB</button> -->
@@ -47,18 +43,11 @@
       var input1 = document.getElementById("username");
       var input2 = document.getElementById("password");
       sessionStorage.setItem("online_db", true);
-      // input1.addEventListener("keyup", function (event) {
-      //   if (event.keyCode === 13) {
-      //     event.preventDefault();
-      //     checkInput();
-      //   }
-      // });
-      // input2.addEventListener("keyup", function (event) {
-      //   if (event.keyCode === 13) {
-      //     event.preventDefault();
-      //     checkInput();
-      //   }
-      // });
+      sessionStorage.setItem(
+        "baseUrl",
+        "http://multirona.000webhostapp.com/index.php/"
+      );
+      // sessionStorage.setItem("baseUrl", "http://localhost/multi_rona/");
 
       function checkInput() {
         if (input1.value != "" && input2.value != "") {
@@ -84,8 +73,14 @@
         //   username +
         //   "&password=" +
         //   password;
+
+        // let url = "http://multirona.epizy.com/index.php/login";
+        // let baseUrl = "http://multirona.000webhostapp.com/index.php/";
+        // let baseUrl = "http://multirona.epizy.com/.com/index.php/";
+
         let url = "http://multirona.000webhostapp.com/index.php/login";
         // let url = "http://localhost/multi_rona/login";
+
         fetch(url, {
           method: "POST",
           headers: {
@@ -95,29 +90,19 @@
         })
           .then((resp) => resp.json())
           .then(function (data) {
-            // console.log(data);
             if (data.status == 200) {
-              // alert(data.message);
               console.log(data);
               sessionStorage.setItem("id_user", data.id);
               sessionStorage.setItem("nama_user", data.nama);
               sessionStorage.setItem("jenis_user", data.jenis);
-              // dialogs.alert(data.message, (ok) => {
               window.location.href = "dashboard.html";
-              // });
             } else {
               dialogs.alert(data.message);
-              // let msg = data.message;
-              // document.getElementById("message").innerHTML = msg.toUpperCase();
-              // document.getElementById("username").value = "";
-              // document.getElementById("password").value = "";
-              // window.location = window.location;
             }
           })
           .catch(function (error) {
             let msg = data.message;
             document.getElementById("message").innerHTML = msg.toUpperCase();
-            // alert("Login Gagal");
           });
       }
 
@@ -131,13 +116,9 @@
       }
 
       function setLocal(param) {
-        // if (param.innerHTML == "Set Local DB") {
-          sessionStorage.setItem("online_db", false);
-          param.innerHTML = "Set Local DB Ok";
-        // } else {
-        //   sessionStorage.setItem("online_db", true);
-        //   param.innerHTML = "Set Local DB";
-        // }
+        sessionStorage.setItem("online_db", false);
+        sessionStorage.setItem("baseUrl", "http://localhost/multi_rona/");
+        param.innerHTML = "Set Local DB Ok";
         console.log(sessionStorage.getItem("online_db"));
       }
     </script>

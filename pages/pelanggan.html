@@ -81,7 +81,7 @@
           ><i class="fas fa-circle w3-small"></i> Satuan</a
         >
       </div>
-      <button class="dropdown-btn">
+      <button class="dropdown-btn" id="laporan-nav">
         <i class="fas fa-folder-open w3-xlarge"></i>
         Laporan
         <i class="fa fa-caret-down"></i>
@@ -121,6 +121,7 @@
           style="float: right; margin-right: 10px; margin-bottom: 10px"
           data-toggle="modal"
           data-target="#modalTambahPelanggan"
+          id="tambah-btn"
         >
           Tambah Pelanggan
         </button>
@@ -307,7 +308,8 @@
     <script>
       const Dialogs = require("dialogs");
       const dialogs = Dialogs();
-      var baseUrl = "http://multirona.000webhostapp.com/index.php/";
+      var baseUrl = sessionStorage.getItem("baseUrl");
+      // var baseUrl = "http://multirona.000webhostapp.com/index.php/";
       // var baseUrl = "http://localhost/multi_rona/";
       // if (sessionStorage.getItem("online_db") == true)
       //   baseUrl = "http://multirona.000webhostapp.com/index.php/";
@@ -318,6 +320,10 @@
       var arrToken = [];
       window.onload = getPelanggan();
       window.onload = getAndroidToken();
+      if (sessionStorage.getItem("jenis_user") != "pemilik") {
+        $("#laporan-nav").css("display", "none");
+        $("#tambah-btn").css("display","none");
+      }
 
       function getPelanggan() {
         // let url = "http://multirona.000webhostapp.com/index.php/pelanggan";
@@ -370,8 +376,10 @@
           tr.appendChild(td);
 
           td = document.createElement("td");
-          td.appendChild(btnEdit);
-          td.appendChild(btnHapus);
+          if (sessionStorage.getItem("jenis_user") == "pemilik") {
+            td.appendChild(btnEdit);
+            td.appendChild(btnHapus);
+          }
           tr.appendChild(td);
 
           tbody[0].appendChild(tr);
@@ -424,19 +432,6 @@
         $("#edit-nama").val(arrPelanggan[x].nama);
         $("#edit-alamat").val(arrPelanggan[x].alamat);
         $("#edit-telp").val(arrPelanggan[x].no_telp);
-        // let url =
-        //   "http://multirona.000webhostapp.com/index.php/supplier?id=" + id;
-        // fetch(url)
-        //   .then((resp) => resp.json())
-        //   .then(function (data) {
-        //     $("#edit-nama").val(data[0].nama);
-        //     $("#edit-keterangan").val(data[0].keterangan);
-        //     $("#edit-alamat").val(data[0].alamat);
-        //     $("#edit-telp").val(data[0].no_telp);
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
       }
 
       $("#edit-nama").keyup(function () {
@@ -465,10 +460,6 @@
           console.log(curEdit);
           let body = {
             id: curId,
-            // nama: $("#edit-nama").val(),
-            // keterangan: $("#edit-keterangan").val(),
-            // alamat: $("#edit-alamat").val(),
-            // telp: $("#edit-telp").val(),
           };
           // let url =
           //   "http://multirona.000webhostapp.com/index.php/supplier/edit";
@@ -559,9 +550,6 @@
         );
 
         var raw = JSON.stringify({
-          // registration_ids: [
-          //   "djH0PfyJSp-ozNO8ZapBpM:APA91bHDYwbLQeJqqQztctJiTAgnQUIAk7H8hMVXCaXbhNipUcWEhLJkHECxVpi71VByMZxWvhj8YCZcX7NJvmNNSW7qC5XjZ7Eu2TR_FGk2Z8WVCW6Dp0sJn2th8PBW6_Kb5hUj9xgz",
-          // ],
           registration_ids: arrToken,
           notification: {
             title: "Notif Multi Rona",

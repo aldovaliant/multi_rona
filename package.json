@@ -1,11 +1,26 @@
 {
   "name": "multi_rona",
+  "productName": "Multirona App",
   "version": "1.0.0",
-  "description": "Multi Rona Desktop app",
+  "description": "Multirona Desktop app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+	"build-installer": "electron-builder"
+  },
+  "build": {
+	"appId": "multirona",
+	"win": {
+		"target": ["nsis"]
+	}, "nsis": {
+		"installerIcon": "src/multirona_icon.ico",
+		"uninstallerIcon": "src/multirona_icon.ico",
+		"uninstallDisplayName": "Multirona",
+		"license": "LICENSE.md",
+		"oneClick": false,
+		"allowToChangeInstallationDirectory": true 
+	}
   },
   "author": "Aldo Verrell Valiant",
   "license": "ISC",
