@@ -1,1 +1,2 @@
-multi_rona
+Source code ini tidak include node modules sehingga kurang lengkap karena jika meng-include node modules sizenya akan lumayan besar.
+Untuk mendapatkan souce code yang lebih lengkap bisa diunduh/pull dari git : https://github.com/aldovaliant/multi_rona.git

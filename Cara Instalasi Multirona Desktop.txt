@@ -1,0 +1,7 @@
+1. extract file Multirona_Desktop.zip
+2. Klik Multirona App Setup 1.0.0.exe di folder Multirona Desktop
+3. Klik "I Agree"
+4. Silahkan pilih user yang berwenang untuk diinstal aplikasi Multirona Desktop ini, lalu klik "Next"
+5. Pilih lokasi destinasi folder tempat aplikasi ini diinstal, klik "Next"
+6. Tunggu instalasi sampai selesai.
+7. Klik "Finish"
